@@ -37,10 +37,14 @@
     function initMap() {
         // The location of Uluru
         var uluru = {lat: parseFloat(lat[0]), lng: parseFloat(lng[0])};
+       
         // The map, centered at Uluru
         var map = new google.maps.Map(document.getElementById('map'), {zoom: 12, center: uluru});
+       
         // The marker, positioned at Uluru
-        var marker = new google.maps.Marker({position: uluru, map: map});
+        for(i in lat){
+            var marker = new google.maps.Marker({position: {lat: parseFloat(lat[i]), lng: parseFloat(lng[i])}, map: map});
+        }
     }
 
 </script>
