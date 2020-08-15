@@ -139,4 +139,52 @@
   </div>
 </div>
 
+<div class="container">
+  <h1>Plan your retirement</h1>
+
+  <!-- Inputs -->
+  <div class="input-container">
+    <form action="{{ url_for('handle_data') }}" method="post">
+      <!-- Cultural Diversity Amount -->
+      <div class="slider-label-container">
+        <h5>Cultural Diversity Amount</h5>
+        <h5 id="cult-diversity-amount-disp">50</h5><h5>%</h5>
+      </div>
+      <input
+        id="cult-diversity-amount"
+        type="range"
+        name="cultureDiversity"
+        min="0"
+        max="100"
+        class="slider"
+        value="50"
+        step="1"
+        oninput="updateInput(this.value, this.id);"
+      />
+
+      <!-- Cultural Diversity Amount -->
+      <div class="slider-label-container">
+        <h5>Age Diversity Amount</h5>
+        <h5 id="age-diversity-amount-disp">50</h5><h5>%</h5>
+      </div>
+      <input
+        id="age-diversity-amount"
+        type="range"
+        name="ageDiversity"
+        min="0"
+        max="100"
+        class="slider"
+        value="50"
+        step="1"
+        oninput="updateInput(this.value, this.id);"
+      />
+
+      <!-- Calculate -->
+      <button type="submit" class="btn btn-primary btn-block">
+        Calculate
+      </button>
+    </form>
+  </div>
+</div>
+
 {% endblock %}
