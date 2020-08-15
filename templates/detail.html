@@ -1,58 +1,77 @@
-{% extends "layout.html" %}
-{% block title %}{% endblock %}
-{% block head %}
-<link 
-    rel="stylesheet" 
-    href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" 
-    integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" 
-    crossorigin="anonymous"
+{% extends "layout.html" %} {% block title %}{% endblock %} {% block head %}
+<link
+  rel="stylesheet"
+  href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+  integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
+  crossorigin="anonymous"
 />
 <link
-    rel="stylesheet" 
-    type="text/css" 
-    href="{{ url_for('static', filename='detail.css') }}"
+  rel="stylesheet"
+  type="text/css"
+  href="{{ url_for('static', filename='detail.css') }}"
 />
-{% endblock %}
-
-{% block content %}
+{% endblock %} {% block content %}
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 <div class="container">
-    <div class="row">
-        <div class="col">
-            <h3>Locations</h3>
-            <div id="map"></div>
-        </div>
-        <div class="col">
-            <canvas id="radar-chart" height="400" width="400">click me</canvas>
-            <button type="button" class="btn btn-primary" onclick="yeet()">click me</button>
-        </div>
-    </div> 
+  <div class="row">
+    <div class="col">
+      <h3>Locations</h3>
+      <div id="map"></div>
+    </div>
+    <div class="col">
+      <canvas id="radar-chart" height="400" width="400">click me</canvas>
+      <button type="button" class="btn btn-primary" onclick="yeet()">
+        click me
+      </button>
+    </div>
+  </div>
 </div>
 
 <script src="{{ url_for('static', filename='detail.js') }}"></script>
 <script>
-    var lat = JSON.parse('{{ lat }}')
-    var lng = JSON.parse('{{ lng }}')
+  var lat = JSON.parse("{{ lat }}");
+  var lng = JSON.parse("{{ lng }}");
 
-    function initMap() {
-        // The location of Uluru
-        var uluru = {lat: parseFloat(lat[0]), lng: parseFloat(lng[0])};
-       
-        // The map, centered at Uluru
-        var map = new google.maps.Map(document.getElementById('map'), {zoom: 12, center: uluru});
-       
-        // The marker, positioned at Uluru
-        for(i in lat){
-            var marker = new google.maps.Marker({position: {lat: parseFloat(lat[i]), lng: parseFloat(lng[i])}, map: map});
-        }
+  function initMap() {
+    // The location of Uluru
+    var uluru = { lat: parseFloat(lat[0]), lng: parseFloat(lng[0]) };
+
+    // The map, centered at Uluru
+    var map = new google.maps.Map(document.getElementById("map"), {
+      zoom: 12,
+      center: uluru,
+    });
+
+    // The marker, positioned at Uluru
+    for (i=0; i < lat.length; i++) {
+      var marker = new google.maps.Marker({
+        position: { lat: parseFloat(lat[i]), lng: parseFloat(lng[i]) },
+        map: map,
+        icon: { url: "http://maps.google.com/mapfiles/kml/paddle/" +(i+1).toString()+ ".png" },
+      });
     }
-
+  }
 </script>
-<script async defer 
-src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCb7IIUbrQAD4rmWhFPvjG_jS3yU1K5aYc&callback=initMap"
-type="text/javascript"></script>
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+<script
+  async
+  defer
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCb7IIUbrQAD4rmWhFPvjG_jS3yU1K5aYc&callback=initMap"
+  type="text/javascript"
+></script>
+<script
+  src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+  integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+  crossorigin="anonymous"
+></script>
+<script
+  src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+  integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+  crossorigin="anonymous"
+></script>
+<script
+  src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+  integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+  crossorigin="anonymous"
+></script>
 
 {% endblock %}
