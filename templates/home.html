@@ -28,7 +28,7 @@
         id="draw-amount"
         type="range"
         min="0"
-        max="10000"
+        max="15000"
         class="slider"
         value="4000"
         step="500"
@@ -146,19 +146,13 @@
         id="penalty"
         style="color: rgb(59, 59, 59); width: auto; margin: auto;"
       >
-        <strong>20000</strong>
+        <strong></strong>
       </h1>
-      <br/>
+      <br />
       <div>
-        <h5>In retirement, this will cost you:</h5>
-          <div>
-            {% for i in range(11) %}
-              <img style="height: 25px;" src="{{ url_for('static',filename='img/coffee.png') }}"/>
-            {% endfor %}
-            <span><h5> a week</h5></span>
-        </div>
+        <div id="planes"></div>
       </div>
-      <h3>How are you tracking</h3>
+      <h3>How you are tracking</h3>
       <hr />
       <h5>Remaining time to reach target balance</h5>
       <h4 id="target"></h4>

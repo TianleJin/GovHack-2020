@@ -122,8 +122,23 @@ function calculate() {
   document.getElementById("healthhigh").innerHTML =
     "$" + healthMax.toLocaleString();
 
-  pct = Math.max(1, Math.min(99, (100 * currBalance) / (healthMin + healthMax)));
+  pct = Math.max(
+    1,
+    Math.min(99, (100 * currBalance) / (healthMin + healthMax))
+  );
   document.getElementById("marker").style.left = pct + "%";
+
+  var numPlanes = Math.round(fv / 3000);
+  var node = document.getElementById("planes");
+  node.innerHTML =
+    "<h5>In retirement, this will cost you " + numPlanes + " holidays</h5>";
+
+  var plane = document.createElement("img");
+  plane.src = "static/img/plane.png";
+  plane.style = "height: 35px; padding: 3px;"
+  for (var i = 0; i < numPlanes; i++) {
+    node.appendChild(plane.cloneNode(true));
+  }
 
   document.getElementById("feedback").classList.add("show");
 }
