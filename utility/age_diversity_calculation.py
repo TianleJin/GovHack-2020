@@ -7,6 +7,11 @@ class Database:
 
     def __init__(self):
         self.db = pd.read_csv(DATAPATH, sep=',')
+
+    def drop_unnamed(self):
+        for label in self.db.columns:
+            if label.startswith('Unnamed'):
+                self.db.drop(labels=label, axis=1, inplace=True)
     
     def calculate_age_diversity(self):
         labels = [label for label in self.db.columns if label.startswith('age')]
@@ -24,5 +29,6 @@ class Database:
 
 if __name__ == '__main__':
     db = Database()
+    db.drop_unnamed()
     db.calculate_age_diversity()
     db.save()
