@@ -36,6 +36,18 @@ h3 {
   margin-left: 90px;
 }
 
+#tip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  color: white;
+  background-color: black;
+}
+
 #health {
   margin-top: 15px;
   width: 400px;
