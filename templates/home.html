@@ -5,12 +5,92 @@
   integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
   crossorigin="anonymous"
 />
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{{ url_for('static',filename='home.css') }}"
+/>
 <script src="{{url_for('static', filename='home.js')}}"></script>
 {% endblock %} {% block content %}
 
-<h1>Early Super Withdrawal Tool</h1>
-<div>
-  <input type="range" min="1" max="10000" class="range" value="4000" />
+<div class="container">
+  <h1>Early Super Withdrawal Tool</h1>
+
+  <!-- Inputs -->
+  <div class="input-container">
+    <!-- Withdrawal Amount -->
+    <div class="slider-label-container">
+      <h4>Withdrawal Amount</h4>
+      <h4 id="draw-amount-disp">4000</h4>
+    </div>
+    <input
+      name="draw-amount"
+      type="range"
+      min="0"
+      max="10000"
+      class="slider"
+      value="4000"
+      step="500"
+      oninput="updateInput(this.value, this.name);"
+    />
+
+    <!-- My Age -->
+    <div class="input-container">
+      <div class="slider-label-container">
+        <h4>My Age</h4>
+        <h4 id="my-age-disp">32</h4>
+      </div>
+      <input
+        name="my-age"
+        type="range"
+        min="18"
+        max="100"
+        class="slider"
+        value="32"
+        oninput="updateInput(this.value, this.name);"
+      />
+    </div>
+
+    <!-- Retirement Age -->
+    <div class="input-container">
+      <div class="slider-label-container">
+        <h4>Retirement Age</h4>
+        <h4 id="ret-age-disp">65</h4>
+      </div>
+      <input
+        name="ret-age"
+        type="range"
+        min="18"
+        max="100"
+        class="slider"
+        value="65"
+        oninput="updateInput(this.value, this.name);"
+      />
+    </div>
+
+    <!-- Target Retirement Balance -->
+    <div class="input-container">
+      <h4>Target Retirement Balance</h4>
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text">$</span>
+        </div>
+        <input
+          type="text"
+          class="form-control"
+          aria-label="Amount (to the nearest dollar)"
+        />
+        <div class="input-group-append">
+          <span class="input-group-text">.00</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Calculate -->
+    <button type="button" class="btn btn-primary btn-block">
+      Calculate
+    </button>
+  </div>
 </div>
 
 {% endblock %}
