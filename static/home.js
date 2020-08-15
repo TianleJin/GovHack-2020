@@ -64,6 +64,7 @@ function getRow(val) {
 
 function updateInput(val, el) {
   document.getElementById(el + "-disp").innerHTML = val;
+  calculate();
 }
 
 function calculate() {

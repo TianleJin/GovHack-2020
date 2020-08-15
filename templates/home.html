@@ -148,6 +148,16 @@
       >
         <strong>20000</strong>
       </h1>
+      <br/>
+      <div>
+        <h5>In retirement, this will cost you:</h5>
+          <div>
+            {% for i in range(11) %}
+              <img style="height: 25px;" src="{{ url_for('static',filename='img/coffee.png') }}"/>
+            {% endfor %}
+            <span><h5> a week</h5></span>
+        </div>
+      </div>
       <h3>How are you tracking</h3>
       <hr />
       <h5>Remaining time to reach target balance</h5>
