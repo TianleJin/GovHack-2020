@@ -2,3 +2,5 @@ env/
 pyvenv.cfg
 Lib/
 Scripts/
+config.js
+data/
