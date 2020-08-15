@@ -20,6 +20,7 @@
 .slider {
     -webkit-appearance: none;
     width: 100%;
+    margin-top: 5px;
     height: 15px;
     background: #e4e4e4;
     border-radius: 10px;
@@ -36,17 +37,19 @@
   .slider::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
-    width: 25px;
-    height: 25px;
+    width: 20px;
+    height: 20px;
     border-radius: 50%;
-    background: #0988ff;
+    border: 5px solid blue;
+    background: #0084ff;
     cursor: pointer;
   }
   
   .slider::-moz-range-thumb {
-    width: 25px;
-    height: 25px;
+    width: 10px;
+    height: 10px;
     border-radius: 50%;
-    background: #0988ff;
+    border: 7px solid rgb(0, 81, 255);
+    background: white;
     cursor: pointer;
   }
