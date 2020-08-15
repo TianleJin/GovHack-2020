@@ -1,9 +1,16 @@
-{% extends "layout.html" %}
-{% block title %}{% endblock %}
-{% block head %}
-{% endblock %}
+{% extends "layout.html" %} {% block title %}{% endblock %} {% block head %}
+<link
+  rel="stylesheet"
+  href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+  integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
+  crossorigin="anonymous"
+/>
+<script src="{{url_for('static', filename='home.js')}}"></script>
+{% endblock %} {% block content %}
 
-{% block content %}
+<h1>Early Super Withdrawal Tool</h1>
+<div>
+  <input type="range" min="1" max="10000" class="range" value="4000" />
+</div>
 
-<p>Home Page</p>
 {% endblock %}

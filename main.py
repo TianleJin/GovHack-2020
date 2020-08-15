@@ -13,4 +13,4 @@ def about_us():
     return render_template("about_us.html")
 
 if __name__ == '__main__':
-    app.run(port=os.getenv('PORT', 5000))
+    app.run(port=os.getenv('PORT', 5000), debug=True)
