@@ -21,7 +21,7 @@ def handle_data():
 
     # Inputs: cultural diversity, age_diversity_amount
     # Output: List of 5 top recommendations (coordinates, postcode, suburb name, diversity rankings)
-    postcode, lat, lng = recommender.recommend(float(cultural_diversity_amount), float(age_diversity_amount), n=5)
+    postcode, lat, lng = recommender.recommend(float(cultural_diversity_amount) / 100, float(age_diversity_amount) / 100, n=5)
 
     return render_template("detail.html", postcode=postcode, lat=lat, lng=lng)
 
