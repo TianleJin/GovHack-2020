@@ -20,17 +20,40 @@
     </div>
     <div class="col">
       <canvas id="radar-chart" height="400" width="400">click me</canvas>
-      <button type="button" class="btn btn-primary" onclick="yeet()">
-        click me
-      </button>
     </div>
   </div>
 </div>
 
 <script src="{{ url_for('static', filename='detail.js') }}"></script>
 <script>
+
   var lat = JSON.parse("{{ lat }}");
   var lng = JSON.parse("{{ lng }}");
+  var population = JSON.parse("{{ population }}")
+  var suburb = JSON.parse("{{ suburb }}")
+  var cultural_diversity = JSON.parse("{{ cultural_diversity }}")
+  var age_diversity = JSON.parse("{{ age_diversity }}")
+
+  var ctx = document.getElementById("radar-chart").getContext("2d")
+  var radar_chart = new Chart(ctx, {
+    type: 'radar',
+    data: {
+        labels: ["Population","Age Diversity","Cultural Diversity"],
+        datasets: [{
+            label: "Lynbrook",
+            data: [8519,39,410]
+        }]
+    },
+    options:Chart.defaults.radar
+  });
+
+  function updateChart(area,pop,age,cultural) {
+    radar_chart.data.datasets = [{
+        label: area,
+        data: [pop,age,cultural]
+    }]
+    radar_chart.update()
+  }
 
   function initMap() {
     // The location of Uluru
@@ -49,9 +72,15 @@
         map: map,
         icon: { url: "http://maps.google.com/mapfiles/kml/paddle/" +(i+1).toString()+ ".png" },
       });
+
+      marker.addListener("click", () => {
+        updateChart(suburb[i],age_diversity[i],cultural_diversity[i])
+      })
+
     }
   }
 </script>
+
 <script
   async
   defer
