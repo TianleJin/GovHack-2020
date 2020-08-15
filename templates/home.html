@@ -5,11 +5,13 @@
   integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
   crossorigin="anonymous"
 />
+
 <link
   rel="stylesheet"
   type="text/css"
   href="{{ url_for('static',filename='home.css') }}"
 />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
 <script src="{{url_for('static', filename='home.js')}}"></script>
 {% endblock %} {% block content %}
 
@@ -158,8 +160,18 @@
       <h4 id="target"></h4>
       <h5>Estimated balance at retirement age</h5>
       <h4 id="endBalance"></h4>
-      <h3>Your super health</h3>
-      <div id="tip">?</div>
+      <div style="display: flex; flex-direction: row; align-items: baseline;">
+        <h3>Your super health</h3>
+        <div
+          data-toggle="tooltip"
+          data-placement="right"
+          data-original-title="Compare your super balance to those of similar age and income"
+          data-timer="291"
+          id="tip"
+        >
+          ?
+        </div>
+      </div>
       <div style="margin-bottom: 30px;">
         <div id="health">
           <div id="marker"></div>
@@ -172,14 +184,169 @@
 </div>
 
 <div class="container">
-  <h1>Plan your retirement</h1>
-
+  <h1>Plan for a withdrawal</h1>
+  <h5>
+    Early withdrawal can have significant financial cost, here are strategies to
+    minimise the impacts
+  </h5>
+  <!-- Payment Planner -->
+  <div style="display: flex; flex-direction: row; align-items: center;">
+    <div style="width: 400px;">
+      <h3>Payment Planner</h3>
+      <h5>
+        Make up the lost ground with a temporary boost in your contribution
+      </h5>
+      <h5>The more you contribute; the sooner your super will recover</h5>
+    </div>
+    <div class="feedback-container">
+      <h2 style="width: 100%; text-align: center; margin-top: 20px;">$2,300</h2>
+      <div class="slider-label-container">
+        <h5>Payment duration</h5>
+        <h5 id="extra-contrib-disp">2</h5>
+      </div>
+      <input
+        id="extra-contrib"
+        type="range"
+        min="0"
+        max="10"
+        class="slider"
+        value="2"
+        step="1"
+        oninput="updateInput(this.value, this.id);"
+      />
+    </div>
+  </div>
+  <!-- Relocation -->
+  <h3>Could relocation work for you?</h3>
+  <h5>
+    Moving regionally can greatly lower the cost of living. There's a regional
+    Victoria for everyone, find what's important to you below
+  </h5>
   <!-- Inputs -->
   <div class="input-container">
     <form action="{{ url_for('handle_data') }}" method="post">
-      <!-- Cultural Diversity Amount -->
+      <!-- Chronic health -->
       <div class="slider-label-container">
-        <h5>Cultural Diversity Amount</h5>
+        <h5>Do you have a chronic health problem?</h5>
+        <div class="health-form">
+          <div class="form-check form-check-inline">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="inlineRadioOptions"
+              id="inlineRadio1"
+              value="option1"
+            />
+            <label class="form-check-label" for="inlineRadio1">Yes</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="inlineRadioOptions"
+              id="inlineRadio2"
+              value="option2"
+            />
+            <label class="form-check-label" for="inlineRadio2">No</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Required Health Services -->
+      <div class="slider-label-container input-container">
+        <h5>Required health facilities</h5>
+        <div class="health-form">
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              value=""
+              id="check1"
+            />
+            <label class="form-check-label" for="check1">
+              Tertiary surgical centre
+            </label>
+          </div>
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              value=""
+              id="check0"
+            />
+            <label class="form-check-label" for="check0">
+              Specialist Medical Treatment
+            </label>
+          </div>
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              value=""
+              id="check2"
+            />
+            <label class="form-check-label" for="check2">
+              Kidney Dialysis
+            </label>
+          </div>
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              value=""
+              id="check3"
+            />
+            <label class="form-check-label" for="check3">
+              Primary Care (GPs)
+            </label>
+          </div>
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              value=""
+              id="check4"
+            />
+            <label class="form-check-label" for="check4">
+              Residential Aged Care Facilities
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Transport -->
+      <div class="slider-label-container input-container">
+        <h5>Choose your preferred mode of transport</h5>
+        <select
+          style="align-self: center; max-width: 600px;"
+          class="custom-select"
+        >
+          <option selected>Select mode of transport</option>
+          <option value="1">Car</option>
+          <option value="2">Public Transport</option>
+          <option value="3">Cycling</option>
+          <option value="3">Walking</option>
+        </select>
+      </div>
+
+      <!-- Rent -->
+      <div class="slider-label-container input-container">
+        <h5>Select from different rent categories</h5>
+        <select
+          style="align-self: center; max-width: 600px;"
+          class="custom-select"
+        >
+          <option selected>Select rent bracket</option>
+          <option value="1">>$1000</option>
+          <option value="2">$1000-$1499</option>
+          <option value="3">$1500-$1999</option>
+          <option value="3">$2000+</option>
+        </select>
+      </div>
+
+      <!-- Cultural Diversity Amount -->
+      <div class="slider-label-container input-container">
+        <h5>How much do you value cultural diversity?</h5>
         <h5 id="cult-diversity-amount-disp">50</h5>
       </div>
       <input
@@ -194,9 +361,9 @@
         oninput="updateInput(this.value, this.id);"
       />
 
-      <!-- Cultural Diversity Amount -->
-      <div class="slider-label-container">
-        <h5>Age Diversity Amount</h5>
+      <!-- Age Diversity Amount -->
+      <div class="slider-label-container input-container">
+        <h5>How much do you value age diversity?</h5>
         <h5 id="age-diversity-amount-disp">50</h5>
       </div>
       <input
@@ -213,10 +380,11 @@
 
       <!-- Calculate -->
       <button type="submit" class="btn btn-primary btn-block">
-        Calculate
+        Explore your options
       </button>
     </form>
   </div>
 </div>
+<div style="padding-bottom: 7%;"></div>
 
 {% endblock %}

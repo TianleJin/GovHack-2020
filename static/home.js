@@ -88,7 +88,7 @@ function calculate() {
     fees = fees + FEE * (1 - INFLATION) ** i;
   }
 
-  var fv = drawAmount * (1 + (ROI - INFLATION - 0.0085)) ** n - fees;
+  var fv = Math.max(0, drawAmount * (1 + (ROI - INFLATION - 0.0085)) ** n - fees);
 
   var contrib = income * SUPER_CONTRIB;
 
@@ -131,7 +131,7 @@ function calculate() {
   var numPlanes = Math.round(fv / 3000);
   var node = document.getElementById("planes");
   node.innerHTML =
-    "<h5>In retirement, this will cost you " + numPlanes + " holidays</h5>";
+    "<h5>In retirement, this will cost you ~" + numPlanes + " holidays</h5>";
 
   var plane = document.createElement("img");
   plane.src = "static/img/plane.png";
