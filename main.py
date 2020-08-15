@@ -8,9 +8,9 @@ app = flask.Flask(__name__)
 def home():
     return render_template("home.html")
     
-@app.route('/about_us')
-def about_us():
-    return render_template("about_us.html")
+@app.route('/detail')
+def detail():
+    return render_template("detail.html")
 
 if __name__ == '__main__':
     app.run(port=os.getenv('PORT', 5000), debug=True)
