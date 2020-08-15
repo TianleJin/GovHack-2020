@@ -13,7 +13,8 @@ function calculate() {
   var currAge = document.getElementById("my-age").value;
   var retAge = document.getElementById("ret-age").value;
   var income = document.getElementById("income").value;
-  var currBalance = document.getElementById("curr-super").value;
+  var currBalance = parseFloat(document.getElementById("curr-super").value);
+  var tgtBalance = parseFloat(document.getElementById("tgt-ret").value);
 
   const n = retAge - currAge;
 
@@ -23,9 +24,16 @@ function calculate() {
   }
 
   var fv = drawAmount * (1 + (ROI - INFLATION - 0.0085)) ** n - fees;
-  
 
+  var contrib = income * SUPER_CONTRIB;
+  var remaining = 0;
+  console.log(contrib);
+  while (currBalance < tgtBalance) {
+    currBalance = currBalance * (1 + ROI - INFLATION - 0.0085);
+    currBalance += contrib - FEE;
+    remaining++;
+  }
 
   console.log(fv);
-
+  console.log(remaining);
 }
