@@ -16,6 +16,7 @@ with open('ssc_codes.json') as json_file:
         ssc_id.append(p['id'])
         postcode_id.append(p['postcode'])
     
+    print(postcode_id)
     lookup_code = zip(ssc_id, postcode_id)
     print(lookup_code)
 

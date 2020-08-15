@@ -24,8 +24,21 @@
   </div>
 </div>
 
+<div class="container">
+  <h3>Median Household Weekly Income:</h3>
+  <div id="household-income"></div>
+  <div><canvas id="travel-method" width="400" height="400"></canvas></div>
+</div>
+
 <script src="{{ url_for('static', filename='detail.js') }}"></script>
 <script>
+  function httpGet(theUrl) {
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open("GET", theUrl, false); // false for synchronous request
+    xmlHttp.send(null);
+    return xmlHttp.responseText;
+  }
+
   var lat = JSON.parse("{{ lat }}");
   var lng = JSON.parse("{{ lng }}");
   var population = JSON.parse("{{ population }}");
@@ -45,6 +58,8 @@
   console.log(suburb);
   var cultural_diversity = JSON.parse("{{ cultural_diversity }}");
   var age_diversity = JSON.parse("{{ age_diversity }}");
+  var dataInfo = JSON.parse(httpGet(data[0]))["features"][0]["properties"];
+  console.log(dataInfo);
 
   var ctx = document.getElementById("radar-chart").getContext("2d");
   var radar_chart = new Chart(ctx, {
@@ -71,11 +86,55 @@
     radar_chart.update();
   }
 
-  function httpGet(theUrl) {
-    var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open("GET", theUrl, false); // false for synchronous request
-    xmlHttp.send(null);
-    return xmlHttp.responseText;
+  var ctx_travel = document.getElementById("travel-method").getContext("2d");
+  var pie_chart = new Chart(ctx_travel, {
+    type: "doughnut",
+    data: {
+      labels: [
+        dataInfo["Top_1_Method_Travel_to_Work"],
+        dataInfo["Top_2_Method_Travel_to_Work"],
+        dataInfo["Top_3_Method_Travel_to_Work"],
+        dataInfo["Top_4_Method_Travel_to_Work"],
+      ],
+      datasets: [
+        {
+          label: dataInfo["ssc_name"],
+          data: [
+            parseFloat(dataInfo["Top1_One_Method_Value_Percent"]),
+            parseFloat(dataInfo["Top2_One_Method_Value_Percent"]),
+            parseFloat(dataInfo["Top3_One_Method_Value_Percent"]),
+            parseFloat(dataInfo["Top4_One_Method_Value_Percent"]),
+          ],
+          backgroundColor: ["#FF6384", "#4BC0C0", "#FFCE56", "#459ae4"],
+        },
+      ],
+    },
+    options: Chart.defaults.doughnut,
+  });
+
+  function updatePieChart(specficData) {
+    console.log("Updating");
+    (pie_chart.data = {
+      labels: [
+        specficData["Top_1_Method_Travel_to_Work"],
+        specficData["Top_2_Method_Travel_to_Work"],
+        specficData["Top_3_Method_Travel_to_Work"],
+        specficData["Top_4_Method_Travel_to_Work"],
+      ],
+      datasets: [
+        {
+          label: specficData["ssc_name"],
+          data: [
+            parseFloat(specficData["Top1_One_Method_Value_Percent"]),
+            parseFloat(specficData["Top2_One_Method_Value_Percent"]),
+            parseFloat(specficData["Top3_One_Method_Value_Percent"]),
+            parseFloat(specficData["Top4_One_Method_Value_Percent"]),
+          ],
+          backgroundColor: ["#FF6384", "#4BC0C0", "#FFCE56", "#459ae4"],
+        },
+      ],
+    }),
+      pie_chart.update();
   }
 
   function addEvent(m, i) {
@@ -83,7 +142,12 @@
       updateChart(suburb[i], age_diversity[i], cultural_diversity[i]);
 
       // Get relevant data for suburb
-      console.log(JSON.parse(httpGet(data[i])));
+      dataInfo = JSON.parse(httpGet(data[i]))["features"][0]["properties"];
+      updatePieChart(dataInfo);
+      console.log(dataInfo);
+
+      document.getElementById("household-income").innerHTML =
+        dataInfo["median_household_income_weekly"];
     });
   }
 
