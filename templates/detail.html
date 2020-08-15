@@ -30,6 +30,21 @@
 </div>
 
 <script src="{{ url_for('static', filename='detail.js') }}"></script>
+<script>
+    var lat = JSON.parse('{{ lat }}')
+    var lng = JSON.parse('{{ lng }}')
+
+    function initMap() {
+        // The location of Uluru
+        var uluru = {lat: parseFloat(lat[0]), lng: parseFloat(lng[0])};
+        // The map, centered at Uluru
+        var map = new google.maps.Map(
+            document.getElementById('map'), {zoom: 12, center: uluru});
+        // The marker, positioned at Uluru
+        var marker = new google.maps.Marker({position: uluru, map: map});
+    }
+
+</script>
 <script async defer 
 src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCb7IIUbrQAD4rmWhFPvjG_jS3yU1K5aYc&callback=initMap"
 type="text/javascript"></script>
