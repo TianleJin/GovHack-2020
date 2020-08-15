@@ -16,9 +16,9 @@
 <div class="container">
   <h1>Early Super Withdrawal Tool</h1>
 
-  <!-- Inputs -->
   <div class="info-container">
-    <div class="input-container">
+    <!-- Inputs -->
+    <div class="controls-container">
       <!-- Withdrawal Amount -->
       <div class="slider-label-container">
         <h5>Withdrawal Amount</h5>
@@ -99,7 +99,7 @@
           <input
             id="curr-super"
             type="text"
-            value="500000"
+            value="50000"
             class="form-control"
             aria-label="Amount (to the nearest dollar)"
           />
@@ -138,8 +138,10 @@
         Calculate
       </button>
     </div>
+
+    <!-- Results Panel -->
     <div id="feedback" class="feedback-container">
-      <h3>Your final balance reduction</h3>
+      <h2>Your final balance reduction</h2>
       <h1
         id="penalty"
         style="color: rgb(59, 59, 59); width: auto; margin: auto;"
@@ -148,14 +150,18 @@
       </h1>
       <h3>How are you tracking</h3>
       <hr />
-      <span>
-        <h5>Remaining time to reach target balance</h5>
-        <h4 id="target"></h4>
-      </span>
-      <h3>Your super health</h3>
-      <hr />
-      <h4>Estimated balance at retirement age</h4>
+      <h5>Remaining time to reach target balance</h5>
+      <h4 id="target"></h4>
+      <h5>Estimated balance at retirement age</h5>
       <h4 id="endBalance"></h4>
+      <h3>Your super health</h3>
+      <div style="margin-bottom: 30px;">
+        <div id="health">
+          <div id="marker"></div>
+        </div>
+        <span id="healthlow" style="float: left;"></span>
+        <span id="healthhigh" style="float: right;"></span>
+      </div>
     </div>
   </div>
 </div>
@@ -169,7 +175,7 @@
       <!-- Cultural Diversity Amount -->
       <div class="slider-label-container">
         <h5>Cultural Diversity Amount</h5>
-        <h5 id="cult-diversity-amount-disp">50</h5><h5>%</h5>
+        <h5 id="cult-diversity-amount-disp">50</h5>
       </div>
       <input
         id="cult-diversity-amount"
@@ -186,7 +192,7 @@
       <!-- Cultural Diversity Amount -->
       <div class="slider-label-container">
         <h5>Age Diversity Amount</h5>
-        <h5 id="age-diversity-amount-disp">50</h5><h5>%</h5>
+        <h5 id="age-diversity-amount-disp">50</h5>
       </div>
       <input
         id="age-diversity-amount"
