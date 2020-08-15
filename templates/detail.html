@@ -26,49 +26,71 @@
 
 <script src="{{ url_for('static', filename='detail.js') }}"></script>
 <script>
-
   var lat = JSON.parse("{{ lat }}");
   var lng = JSON.parse("{{ lng }}");
   var population = JSON.parse("{{ population }}");
   var suburb_string = "{{ suburb }}";
-  suburb_string = suburb_string.replace(/&#34;/g, '');
-  suburb_string = suburb_string.substring(1,suburb_string.length-1)
-  var suburb =  suburb_string.split(", ")
-  console.log(suburb)
+  suburb_string = suburb_string.replace(/&#34;/g, "");
+  suburb_string = suburb_string.substring(1, suburb_string.length - 1);
+  var suburb = suburb_string.split(", ");
+
+  var data = "{{ data_calls }}";
+
+  console.log(data);
+  data = data.replace(/&#39;/g, "");
+  data = data.replace(/amp;/g, "");
+  data = data.substring(1, data.length - 1);
+  var data = data.split(", ");
+  console.log(data);
+  console.log(suburb);
   var cultural_diversity = JSON.parse("{{ cultural_diversity }}");
   var age_diversity = JSON.parse("{{ age_diversity }}");
 
-
-  var ctx = document.getElementById("radar-chart").getContext("2d")
+  var ctx = document.getElementById("radar-chart").getContext("2d");
   var radar_chart = new Chart(ctx, {
-    type: 'radar',
+    type: "radar",
     data: {
-        labels: ["Population","Age Diversity","Regionality"],
-        datasets: [{
-            label: "Lynbrook",
-            data: [0.5,39,410]
-        }]
+      labels: ["Population", "Age Diversity", "Regionality"],
+      datasets: [
+        {
+          label: "Lynbrook",
+          data: [0.5, 39, 410],
+        },
+      ],
     },
-    options:Chart.defaults.radar
+    options: Chart.defaults.radar,
   });
 
-  function updateChart(area,age,cultural) {
-    radar_chart.data.datasets = [{
+  function updateChart(area, age, cultural) {
+    radar_chart.data.datasets = [
+      {
         label: area,
-        data: [0.5,age,cultural]
-    }]
-    radar_chart.update()
+        data: [0.5, age, cultural],
+      },
+    ];
+    radar_chart.update();
   }
 
-  function addEvent(m,i) {
-    m.addListener("click", () => {updateChart(suburb[i],age_diversity[i],cultural_diversity[i])});
-  } 
+  function httpGet(theUrl) {
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open("GET", theUrl, false); // false for synchronous request
+    xmlHttp.send(null);
+    return xmlHttp.responseText;
+  }
 
+  function addEvent(m, i) {
+    m.addListener("click", () => {
+      updateChart(suburb[i], age_diversity[i], cultural_diversity[i]);
+
+      // Get relevant data for suburb
+      console.log(JSON.parse(httpGet(data[i])));
+    });
+  }
 
   function initMap() {
     // The location of Uluru
     var uluru = { lat: parseFloat(lat[0]), lng: parseFloat(lng[0]) };
-    console.log(suburb)
+    console.log(suburb);
     // The map, centered at Uluru
     var map = new google.maps.Map(document.getElementById("map"), {
       zoom: 12,
@@ -76,16 +98,20 @@
     });
 
     // The marker, positioned at Uluru
-    for (var i=0; i < lat.length; i++) {
+    for (var i = 0; i < lat.length; i++) {
       var marker = new google.maps.Marker({
         position: { lat: parseFloat(lat[i]), lng: parseFloat(lng[i]) },
         map: map,
-        icon: { url: "http://maps.google.com/mapfiles/kml/paddle/" +(i+1).toString()+ ".png" },
+        icon: {
+          url:
+            "http://maps.google.com/mapfiles/kml/paddle/" +
+            (i + 1).toString() +
+            ".png",
+        },
       });
-      addEvent(marker,i);
+      addEvent(marker, i);
     }
   }
-    
 </script>
 
 <script
