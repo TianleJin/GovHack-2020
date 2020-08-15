@@ -122,7 +122,7 @@ function calculate() {
   document.getElementById("healthhigh").innerHTML =
     "$" + healthMax.toLocaleString();
 
-  pct = (100 * currBalance) / (healthMin + healthMax);
+  pct = Math.max(1, Math.min(99, (100 * currBalance) / (healthMin + healthMax)));
   document.getElementById("marker").style.left = pct + "%";
 
   document.getElementById("feedback").classList.add("show");
