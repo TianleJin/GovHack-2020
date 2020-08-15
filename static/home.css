@@ -16,15 +16,19 @@ h3 {
 .info-container {
   display: flex;
   flex-direction: row;
-  margin-top: 20px;
+  margin-top: 50px;
 }
 
 #feedback {
   opacity: 0;
-  transition: opacity 0.4s;
+  position: relative;
+  top: 100px;
+  transition: opacity 0.5s ease, top 0.5s ease;
 }
+
 #feedback.show {
   opacity: 1;
+  top: 0;
 }
 
 .feedback-container {
@@ -32,8 +36,37 @@ h3 {
   margin-left: 90px;
 }
 
-.input-container {
+#health {
+  margin-top: 15px;
   width: 400px;
+  height: 20px;
+  border-radius: 20px;
+  background: linear-gradient(
+    270deg,
+    rgba(69, 255, 59, 1) 0%,
+    rgba(196, 255, 73, 1) 25%,
+    rgb(241, 239, 93) 50%,
+    rgb(241, 189, 66) 75%,
+    rgba(255, 51, 51, 1) 100%
+  );
+}
+
+#marker {
+  position: relative;
+  width: 2px;
+  height: 20px;
+  left: 50%;
+  background-color: black;
+}
+
+.controls-container {
+  box-sizing: content-box;
+  width: 450px;
+  /* background-color: rgb(250, 250, 250); */
+  /* padding: 35px; */
+}
+
+.input-container {
   padding-top: 25px;
 }
 
