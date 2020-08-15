@@ -15,7 +15,7 @@ class Recommender:
         data = self.db[['postcode', 'lat', 'lon', 'diversity_std', 'age_diversity_std', 'suburb', 'tot_P']].drop_duplicates(subset='postcode')
         data['metric'] = (data['diversity_std'] - diversity) ** 2 + (data['age_diversity_std'] - age_diversity) ** 2
         locations = data.nsmallest(n, columns='metric')
-        return list(locations['lat']), list(locations['lon']), list(locations['tot_P']), list(locations['suburb']), list(locations['diversity_std']), list(locations['age_diversity_std'])
+        return list(locations['lat']), list(locations['lon']), list(locations['tot_P']), list(locations['suburb']), list(locations['postcode']), list(locations['diversity_std']), list(locations['age_diversity_std'])
 
 
 if __name__ == '__main__':
