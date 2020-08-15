@@ -6,6 +6,11 @@ function initMap() {
         document.getElementById('map'), {zoom: 4, center: uluru});
     // The marker, positioned at Uluru
     var marker = new google.maps.Marker({position: uluru, map: map});
+    // event listener for marker
+    marker.addListener("click", () => {
+        map.setZoom(8);
+        map.setCenter(marker.getPosition());
+    });
 }
 
 var ctx = document.getElementById("radar-chart").getContext("2d")
