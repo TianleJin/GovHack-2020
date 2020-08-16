@@ -287,12 +287,7 @@
       var marker = new google.maps.Marker({
         position: { lat: parseFloat(lat[i]), lng: parseFloat(lng[i]) },
         map: map,
-        icon: {
-          url:
-            "http://maps.google.com/mapfiles/kml/paddle/" +
-            (i + 1).toString() +
-            ".png",
-        },
+        label: "" + (i + 1),
       });
       addEvent(marker, i);
     }
