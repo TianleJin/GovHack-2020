@@ -54,7 +54,29 @@ h3 {
   bottom: 3px;
   position: relative;
   margin-left: 7px;
-  pointer-events: all;
+  cursor: pointer;
+}
+
+#tip-box {
+  width: 130px;
+  color: white;
+  background-color: black;
+  border-radius: 10px;
+  padding: 10px;
+  display: flex;
+  font-size: small;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  right: 30px;
+  opacity: 0;
+  bottom: 60px;
+  transition: all 0.3s ease;
+}
+
+#tip-box.show {
+  right: 20px;
+  opacity: 1;
 }
 
 #health {

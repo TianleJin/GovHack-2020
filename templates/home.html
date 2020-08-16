@@ -162,14 +162,11 @@
       <h4 id="endBalance"></h4>
       <div style="display: flex; flex-direction: row; align-items: baseline;">
         <h3>Your super health</h3>
-        <div
-          data-toggle="tooltip"
-          data-placement="right"
-          data-original-title="Compare your super balance to those of similar age and income"
-          data-timer="291"
-          id="tip"
-        >
+        <div id="tip" onclick="toggleTip(this.id);">
           ?
+        </div>
+        <div id="tip-box">
+          Compares your super balance to those of similar age and income
         </div>
       </div>
       <div style="margin-bottom: 30px;">
@@ -199,15 +196,23 @@
       <h5>The more you contribute; the sooner your super will recover</h5>
     </div>
     <div class="feedback-container">
-      <h2 style="width: 100%; text-align: center; margin-top: 20px;">$2,300</h2>
+      <h2
+        id="extra-pmt"
+        style="
+          width: 100%;
+          text-align: center;
+          margin-top: 20px;
+          margin-bottom: 20px;
+        "
+      ></h2>
       <div class="slider-label-container">
-        <h5>Payment duration</h5>
+        <h5>Payment duration in years</h5>
         <h5 id="extra-contrib-disp">2</h5>
       </div>
       <input
         id="extra-contrib"
         type="range"
-        min="0"
+        min="1"
         max="10"
         class="slider"
         value="2"
