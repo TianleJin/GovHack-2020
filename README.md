@@ -7,3 +7,7 @@ Our project gives insights into how we can imagine life in the new normal, using
 Our platform allows users to see their financial situation at a glance and quantify the impact of living in a regional area, alongside an algorithm that matches their priorities to a suitable area. It could be opportunities for job seekers, the amenities and lifestyle that matches their family’s goals, or how a change of pace could work for them in retirement. 
 
 The post COVID-19 Australia is here. 
+
+# Developer Notes
+
+Pandas and Requests are missing from requirement.txt; install these manually.
