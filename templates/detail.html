@@ -59,28 +59,50 @@
   var cultural_diversity = JSON.parse("{{ cultural_diversity }}");
   var age_diversity = JSON.parse("{{ age_diversity }}");
   var dataInfo = JSON.parse(httpGet(data[0]))["features"][0]["properties"];
+
   console.log(dataInfo);
+  console.log(parseFloat(dataInfo["total_population"]) / 100313);
+  console.log(age_diversity[0]);
+  console.log(cultural_diversity[0]);
+  console.log(parseFloat(dataInfo["median_weekly_rent"]) / 740);
 
   var ctx = document.getElementById("radar-chart").getContext("2d");
   var radar_chart = new Chart(ctx, {
     type: "radar",
     data: {
-      labels: ["Population", "Age Diversity", "Regionality"],
+      labels: [
+        "Population",
+        "Age Diversity",
+        "Cultural Diversity",
+        "Cost of Living",
+      ],
       datasets: [
         {
-          label: "Lynbrook",
-          data: [0.5, 39, 410],
+          label: dataInfo["ssc_name"],
+          data: [
+            parseFloat(dataInfo["total_population"]) / 100313,
+            age_diversity[0],
+            cultural_diversity[0],
+            parseFloat(dataInfo["median_weekly_rent"]) / 740,
+          ],
+        backgroundColor: ["#007bff29"],
         },
       ],
     },
     options: Chart.defaults.radar,
   });
 
-  function updateChart(area, age, cultural) {
+  function updateChart(i, specificData) {
     radar_chart.data.datasets = [
       {
-        label: area,
-        data: [0.5, age, cultural],
+        label: suburb[i],
+        data: [
+          parseFloat(specificData["total_population"]) / 100313,
+          age_diversity[i],
+          cultural_diversity[i],
+          parseFloat(specificData["median_weekly_rent"]) / 740,
+        ],
+        backgroundColor: ["#007bff29"],
       },
     ];
     radar_chart.update();
@@ -139,10 +161,10 @@
 
   function addEvent(m, i) {
     m.addListener("click", () => {
-      updateChart(suburb[i], age_diversity[i], cultural_diversity[i]);
 
       // Get relevant data for suburb
       dataInfo = JSON.parse(httpGet(data[i]))["features"][0]["properties"];
+      updateChart(i, dataInfo);
       updatePieChart(dataInfo);
       console.log(dataInfo);
 
