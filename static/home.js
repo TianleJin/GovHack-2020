@@ -36,6 +36,8 @@ d. $87,001 to $180,000
 e. $180,001 or more
 */
 
+var barChart;
+
 function getCol(val) {
   if (val < 18) {
     return 0;
@@ -102,9 +104,13 @@ function calculate() {
     labels.push(i + 1);
   }
 
+  if (barChart) {
+    barChart.destroy();
+  }
+
   var ctx = document.getElementById("myChart");
 
-  var myBarChart = new Chart(ctx, {
+  barChart = new Chart(ctx, {
     type: "bar",
     data: {
       labels: labels,
