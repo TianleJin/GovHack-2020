@@ -15,10 +15,8 @@ with open('ssc_codes.json') as json_file:
     for p in data['data']:
         ssc_id.append(p['id'])
         postcode_id.append(p['postcode'])
-    
-    print(postcode_id)
+        
     lookup_code = zip(ssc_id, postcode_id)
-    print(lookup_code)
 
 @app.route('/', methods=['GET'])
 def home():
@@ -30,8 +28,10 @@ def detail():
 
 @app.route('/handle_data', methods=['POST'])
 def handle_data():
-    cultural_diversity_amount = request.form['cultureDiversity']
-    age_diversity_amount = request.form['ageDiversity']
+    cultural_diversity_amount = float(request.form['cultureDiversity'])/100
+    age_diversity_amount = float(request.form['ageDiversity'])/100
+    rent_amount = int(request.form['rent-value'])/4
+    population_choice = float(request.form['population'])/100
 
     # your code
     # return a response
@@ -40,7 +40,7 @@ def handle_data():
 
     # Inputs: cultural diversity, age_diversity_amount
     # Output: List of 5 top recommendations (coordinates, postcode, suburb name, diversity rankings)
-    lat, lng, population, suburb, postcodes, cultural_diversity, age_diversity = recommender.recommend(float(cultural_diversity_amount) / 100, float(age_diversity_amount) / 100, n=5)
+    lat, lng, population, suburb, postcodes, cultural_diversity, age_diversity = recommender.recommend(cultural_diversity_amount, age_diversity_amount, n=5)
     print(lat, lng, population, suburb, cultural_diversity, age_diversity)
 
     ssc_codes = [ssc_id[postcode_id.index(str(postcode))] for postcode in postcodes]
@@ -50,7 +50,7 @@ def handle_data():
         response = requests.get(info)
         data.append(response.json())
 
-    return render_template("detail.html", lat=lat, lng=lng, population = population, suburb = json.dumps(suburb), cultural_diversity = cultural_diversity, age_diversity = age_diversity, data_calls=data_calls)
+    return render_template("detail.html", userInfo=[cultural_diversity_amount, age_diversity_amount, rent_amount, population_choice], lat=lat, lng=lng, population = population, suburb = json.dumps(suburb), cultural_diversity = cultural_diversity, age_diversity = age_diversity, data_calls=data_calls)
 
 if __name__ == '__main__':
     app.run(port=os.getenv('PORT', 5000), debug=True)
