@@ -36,6 +36,8 @@ d. $87,001 to $180,000
 e. $180,001 or more
 */
 
+var barChart;
+
 function getCol(val) {
   if (val < 18) {
     return 0;
@@ -87,10 +89,70 @@ function calculate() {
 
   const n = retAge - currAge;
 
+  var series = [];
+  var labels = [];
+
   var fees = 0;
   for (var i = 0; i < n; i++) {
     fees = fees + FEE * (1 - INFLATION) ** i;
+    series.push(
+      Math.round(
+        drawAmount * (1 + (ROI - INFLATION - 0.0085)) ** i -
+          FEE * (1 - INFLATION) ** i
+      )
+    );
+    labels.push(i + 1);
   }
+
+  if (barChart) {
+    barChart.destroy();
+  }
+
+  var ctx = document.getElementById("myChart");
+
+  barChart = new Chart(ctx, {
+    type: "bar",
+    data: {
+      labels: labels,
+      datasets: [
+        {
+          label: "Opportunity Cost of Your Withdrawal (excl. fees & tax)",
+          data: series,
+          backgroundColor: "rgba(255, 99, 132, 0.2)",
+          borderColor: "rgba(255, 99, 132, 1)",
+          borderWidth: 1,
+        },
+      ],
+    },
+    options: {
+      legend: {
+        display: false,
+      },
+      title: {
+        display: true,
+        text: "Opportunity Cost of Your Withdrawal (excl. fees & tax)",
+      },
+      responsive: false,
+      scales: {
+        yAxes: [
+          {
+            scaleLabel: {
+              display: true,
+              labelString: "Super Balance",
+            },
+          },
+        ],
+        xAxes: [
+          {
+            scaleLabel: {
+              display: true,
+              labelString: "Years",
+            },
+          },
+        ],
+      },
+    },
+  });
 
   var fv = Math.max(
     0,

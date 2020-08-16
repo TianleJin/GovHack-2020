@@ -13,8 +13,12 @@
 {% endblock %} {% block content %}
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 
-<h2 id="suburb"></h2>
+<div class="jumbotron">
+  <h2 class="display-4" id="suburb"></h2>
+</div>
 <div class="container">
+  <h1>Regional Australia</h1>
+  <h2>Ready when you are.</h2>
   <div class="row">
     <div class="col">
       <h3>Locations</h3>
@@ -59,22 +63,14 @@
     var userInfo = "{{ userInfo }}";
     userInfo = userInfo.substring(1, userInfo.length - 1).split(", ");
 
-    console.log(data);
-    data = data.replace(/&#39;/g, "");
-    data = data.replace(/amp;/g, "");
-    data = data.substring(1, data.length - 1);
-    var data = data.split(", ");
-    console.log(data);
-    console.log(suburb);
-    var cultural_diversity = JSON.parse("{{ cultural_diversity }}");
-    var age_diversity = JSON.parse("{{ age_diversity }}");
-    var dataInfo = JSON.parse(httpGet(data[0]))["features"][0]["properties"];
+  data = data.replace(/&#39;/g, "");
+  data = data.replace(/amp;/g, "");
+  data = data.substring(1, data.length - 1);
+  var data = data.split(", ");
+  var cultural_diversity = JSON.parse("{{ cultural_diversity }}");
+  var age_diversity = JSON.parse("{{ age_diversity }}");
+  var dataInfo = JSON.parse(httpGet(data[0]))["features"][0]["properties"];
 
-    console.log(dataInfo);
-    console.log(parseFloat(dataInfo["total_population"]) / 100313);
-    console.log(age_diversity[0]);
-    console.log(cultural_diversity[0]);
-    console.log(parseFloat(dataInfo["median_weekly_rent"]) / 740);
 
     // Initialise key statistics
     document.getElementById("household-income").innerHTML =
@@ -235,7 +231,7 @@
 <script
   async
   defer
-  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-W_aE1PDtciua1WNeIarzQRWvNq_HP7A&callback=initMap"
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCb7IIUbrQAD4rmWhFPvjG_jS3yU1K5aYc&callback=initMap"
   type="text/javascript"
 ></script>
 <script
