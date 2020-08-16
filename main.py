@@ -8,6 +8,9 @@ import json
 app = flask.Flask(__name__)
 recommender = ML.Recommender()
 
+# For Heroku
+app.secret_key = os.environ.get('MAPS_SECRET_KEY')
+
 with open('ssc_codes.json') as json_file:
     data = json.load(json_file)
     ssc_id = []
@@ -15,7 +18,7 @@ with open('ssc_codes.json') as json_file:
     for p in data['data']:
         ssc_id.append(p['id'])
         postcode_id.append(p['postcode'])
-        
+
     lookup_code = zip(ssc_id, postcode_id)
 
 @app.route('/', methods=['GET'])
@@ -62,16 +65,14 @@ def handle_data():
         cultural_diversity.append(cultural_diversity_[i])
         age_diversity.append(age_diversity_[i])
 
-    print(lat,lng,population,suburb,cultural_diversity,age_diversity)
-
     data_calls = ["https://gis-app-cdn.prod.myvictoria.vic.gov.au/geoserver/myvic/ows?service=WFS&version=1.0.0&outputFormat=application%2Fjson&request=GetFeature&typeName=myvic:demographics_suburb&CQL_FILTER=ssc_code=%27" + str(ssc_code) + "%27" for ssc_code in ssc_codes]
     data=[]
     for info in data_calls:
         response = requests.get(info)
-        print(response.json())
         data.append(response.json())
-
-    return render_template("detail.html", userInfo=[cultural_diversity_amount, age_diversity_amount, rent_amount, population_choice], lat=lat, lng=lng, population = population, suburb = json.dumps(suburb), cultural_diversity = cultural_diversity, age_diversity = age_diversity, data_calls=data_calls)
+    
+    google_config = app.secret_key
+    return render_template("detail.html", userInfo=[cultural_diversity_amount, age_diversity_amount, rent_amount, population_choice], lat=lat, lng=lng, population = population, suburb = json.dumps(suburb), cultural_diversity = cultural_diversity, age_diversity = age_diversity, data_calls=data_calls, google_config=google_config)
 
 if __name__ == '__main__':
     app.run(port=os.getenv('PORT', 5000), debug=True)

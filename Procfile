@@ -1,0 +1,1 @@
+web gunicorn -b :$PORT api:main --timeout 30
