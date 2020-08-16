@@ -30,7 +30,7 @@
     <h3>Median Household Weekly Income: <span id="household-income"></span></h3>
   </div>
   <div class="row">
-    <div class="col">
+    <div class="col-6">
       <div class="card text-center">
         <div class="card-header">
           <h3>Suburb Overview</h3>
@@ -40,7 +40,7 @@
         </div>
       </div>
     </div>
-    <div class="col">
+    <div class="col-6">
       <div class="card text-center">
         <div class="card-header">
           <h3>Travel Preferences</h3>
@@ -121,7 +121,7 @@
         },
       ],
     },
-    options: Chart.defaults.radar,
+    options: {...Chart.defaults.radar, responsive:false},
   });
 
   function updateChart(i, specificData) {
@@ -168,7 +168,7 @@
         },
       ],
     },
-    options: Chart.defaults.doughnut,
+    options: {...Chart.defaults.doughnut, responsive:false},
   });
 
   function updatePieChart(specficData) {
