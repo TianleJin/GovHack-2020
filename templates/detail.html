@@ -26,8 +26,18 @@
 </div>
 
 <div class="container">
+  <h2>Key Statistics</h2>
   <div class="row alert alert-primary" role="alert">
     <h3>Median Household Weekly Income: <span id="household-income"></span></h3>
+  </div>
+  <div class="row alert alert-primary" role="alert">
+    <h3>Median Monthly Mortgage Repaymeny: <span id="mortgage"></span></h3>
+  </div>
+  <div class="row alert alert-primary" role="alert">
+    <h3>Unemployment Percentage: <span id="unemployment"></span></h3>
+  </div>
+  <div class="row alert alert-primary" role="alert">
+    <h3>Median House Price: <span id="house-price"></span></h3>
   </div>
   <div class="row">
     <div class="col-6">
@@ -83,9 +93,17 @@
   var age_diversity = JSON.parse("{{ age_diversity }}");
   var dataInfo = JSON.parse(httpGet(data[0]))["features"][0]["properties"];
 
+  console.log(dataInfo);
+
   // Initialise key statistics
   document.getElementById("household-income").innerHTML =
     "$" + dataInfo["median_household_income_weekly"];
+  document.getElementById("mortgage").innerHTML =
+    "$" + dataInfo["median_mortgage_repay_monthly"];
+  document.getElementById("unemployment").innerHTML =
+    dataInfo["Percentage_Persons_Unemployed"] + "%";
+  document.getElementById("house-price").innerHTML =
+    "$" + dataInfo["median_house_price"];
   document.getElementById("suburb").innerHTML = suburb[0];
 
   var ctx = document.getElementById("radar-chart").getContext("2d");
@@ -121,7 +139,7 @@
         },
       ],
     },
-    options: {...Chart.defaults.radar, responsive:false},
+    options: { ...Chart.defaults.radar, responsive: false },
   });
 
   function updateChart(i, specificData) {
@@ -168,7 +186,7 @@
         },
       ],
     },
-    options: {...Chart.defaults.doughnut, responsive:false},
+    options: { ...Chart.defaults.doughnut, responsive: false },
   });
 
   function updatePieChart(specficData) {
@@ -206,6 +224,12 @@
       // Update the key statistics
       document.getElementById("household-income").innerHTML =
         "$" + dataInfo["median_household_income_weekly"];
+      document.getElementById("mortgage").innerHTML =
+        "$" + dataInfo["median_mortgage_repay_monthly"];
+      document.getElementById("unemployment").innerHTML =
+        dataInfo["Percentage_Persons_Unemployed"] + "%";
+      document.getElementById("house-price").innerHTML =
+        "$" + dataInfo["median_house_price"];
       document.getElementById("suburb").innerHTML = suburb[i];
     });
   }
@@ -303,7 +327,7 @@
   }
 </script>
 
-<script async defer >
+<script async defer>
   var source = "{{ google_config }}";
   source = source.replace(/&#34;/g, "");
   var scriptElement = document.createElement("script");
