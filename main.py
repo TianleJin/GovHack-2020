@@ -29,8 +29,10 @@ def home():
 def detail():
     return render_template("detail.html")
 
-@app.route('/handle_data', methods=['POST'])
+@app.route('/handle_data', methods=['POST', 'GET'])
 def handle_data():
+    if request.method == 'GET':
+        return redirect(url_for('home'))
     cultural_diversity_amount = float(request.form['cultureDiversity'])/100
     age_diversity_amount = float(request.form['ageDiversity'])/100
     rent_amount = int(request.form['rent-value'])/4
@@ -70,4 +72,4 @@ def handle_data():
     return render_template("detail.html", userInfo=[cultural_diversity_amount, age_diversity_amount, rent_amount, population_choice], lat=lat, lng=lng, population = population, suburb = json.dumps(suburb), cultural_diversity = cultural_diversity, age_diversity = age_diversity, data_calls=data_calls, google_config=google_config)
 
 if __name__ == '__main__':
-    app.run(port=os.getenv('PORT', 5000), debug=True)
+    app.run(port=os.getenv('PORT', 5000), debug=False)
