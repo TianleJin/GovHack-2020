@@ -8,6 +8,9 @@ import json
 app = flask.Flask(__name__)
 recommender = ML.Recommender()
 
+# For Heroku
+app.secret_key = os.environ.get('MAPS_SECRET_KEY')
+
 with open('ssc_codes.json') as json_file:
     data = json.load(json_file)
     ssc_id = []
@@ -15,7 +18,7 @@ with open('ssc_codes.json') as json_file:
     for p in data['data']:
         ssc_id.append(p['id'])
         postcode_id.append(p['postcode'])
-        
+
     lookup_code = zip(ssc_id, postcode_id)
 
 @app.route('/', methods=['GET'])

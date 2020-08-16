@@ -26,7 +26,6 @@
   </div>
 </div>
 
-
 <div class="flex-container">
   <div>
     <h3>Median Household Weekly Income:</h3>
@@ -40,202 +39,203 @@
 
 <script src="{{ url_for('static', filename='detail.js') }}"></script>
 <script>
-  function httpGet(theUrl) {
-    var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open("GET", theUrl, false); // false for synchronous request
-    xmlHttp.send(null);
-    return xmlHttp.responseText;
-  }
+    function httpGet(theUrl) {
+      var xmlHttp = new XMLHttpRequest();
+      xmlHttp.open("GET", theUrl, false); // false for synchronous request
+      xmlHttp.send(null);
+      return xmlHttp.responseText;
+    }
 
-  var lat = JSON.parse("{{ lat }}");
-  var lng = JSON.parse("{{ lng }}");
-  var population = JSON.parse("{{ population }}");
-  var suburb_string = "{{ suburb }}";
-  suburb_string = suburb_string.replace(/&#34;/g, "");
-  suburb_string = suburb_string.substring(1, suburb_string.length - 1);
-  var suburb = suburb_string.split(", ");
+    var lat = JSON.parse("{{ lat }}");
+    var lng = JSON.parse("{{ lng }}");
+    var population = JSON.parse("{{ population }}");
+    var suburb_string = "{{ suburb }}";
+    suburb_string = suburb_string.replace(/&#34;/g, "");
+    suburb_string = suburb_string.substring(1, suburb_string.length - 1);
+    var suburb = suburb_string.split(", ");
 
-  var data = "{{ data_calls }}";
+    var data = "{{ data_calls }}";
 
-  var userInfo = "{{ userInfo }}";
-  userInfo = userInfo.substring(1, userInfo.length - 1).split(", ");
+    var userInfo = "{{ userInfo }}";
+    userInfo = userInfo.substring(1, userInfo.length - 1).split(", ");
 
-  console.log(data);
-  data = data.replace(/&#39;/g, "");
-  data = data.replace(/amp;/g, "");
-  data = data.substring(1, data.length - 1);
-  var data = data.split(", ");
-  console.log(data);
-  console.log(suburb);
-  var cultural_diversity = JSON.parse("{{ cultural_diversity }}");
-  var age_diversity = JSON.parse("{{ age_diversity }}");
-  var dataInfo = JSON.parse(httpGet(data[0]))["features"][0]["properties"];
+    console.log(data);
+    data = data.replace(/&#39;/g, "");
+    data = data.replace(/amp;/g, "");
+    data = data.substring(1, data.length - 1);
+    var data = data.split(", ");
+    console.log(data);
+    console.log(suburb);
+    var cultural_diversity = JSON.parse("{{ cultural_diversity }}");
+    var age_diversity = JSON.parse("{{ age_diversity }}");
+    var dataInfo = JSON.parse(httpGet(data[0]))["features"][0]["properties"];
 
-  console.log(dataInfo);
-  console.log(parseFloat(dataInfo["total_population"]) / 100313);
-  console.log(age_diversity[0]);
-  console.log(cultural_diversity[0]);
-  console.log(parseFloat(dataInfo["median_weekly_rent"]) / 740);
+    console.log(dataInfo);
+    console.log(parseFloat(dataInfo["total_population"]) / 100313);
+    console.log(age_diversity[0]);
+    console.log(cultural_diversity[0]);
+    console.log(parseFloat(dataInfo["median_weekly_rent"]) / 740);
 
-  // Initialise key statistics
-  document.getElementById("household-income").innerHTML =
-    dataInfo["median_household_income_weekly"];
-  document.getElementById("suburb").innerHTML = suburb[0];
+    // Initialise key statistics
+    document.getElementById("household-income").innerHTML =
+      dataInfo["median_household_income_weekly"];
+    document.getElementById("suburb").innerHTML = suburb[0];
 
-  var ctx = document.getElementById("radar-chart").getContext("2d");
-  var radar_chart = new Chart(ctx, {
-    type: "radar",
-    data: {
-      labels: [
-        "Population",
-        "Age Diversity",
-        "Cultural Diversity",
-        "Cost of Living",
-      ],
-      datasets: [
+    var ctx = document.getElementById("radar-chart").getContext("2d");
+    var radar_chart = new Chart(ctx, {
+      type: "radar",
+      data: {
+        labels: [
+          "Population",
+          "Age Diversity",
+          "Cultural Diversity",
+          "Cost of Living",
+        ],
+        datasets: [
+          {
+            label: dataInfo["ssc_name"],
+            data: [
+              parseFloat(dataInfo["total_population"]) / 100313,
+              age_diversity[0],
+              cultural_diversity[0],
+              parseFloat(dataInfo["median_weekly_rent"]) / 740,
+            ],
+            backgroundColor: ["#007bff29"],
+          },
+          {
+            label: "User Preferences",
+            data: [
+              parseFloat(userInfo[3]),
+              parseFloat(userInfo[1]),
+              parseFloat(userInfo[0]),
+              parseFloat(userInfo[2]),
+            ],
+            backgroundColor: ["#dc354552"],
+          },
+        ],
+      },
+      options: Chart.defaults.radar,
+    });
+
+    function updateChart(i, specificData) {
+      radar_chart.data.datasets = [
         {
-          label: dataInfo["ssc_name"],
+          label: suburb[i],
           data: [
-            parseFloat(dataInfo["total_population"]) / 100313,
-            age_diversity[0],
-            cultural_diversity[0],
-            parseFloat(dataInfo["median_weekly_rent"]) / 740,
+            parseFloat(specificData["total_population"]) / 100313,
+            age_diversity[i],
+            cultural_diversity[i],
+            parseFloat(specificData["median_weekly_rent"]) / 740,
           ],
           backgroundColor: ["#007bff29"],
         },
         {
-          label: "User Preferences",
-          data: [
-            parseFloat(userInfo[3]),
-            parseFloat(userInfo[1]),
-            parseFloat(userInfo[0]),
-            parseFloat(userInfo[2]),
-          ],
+          label: "User Preference",
+          data: [userInfo[3], userInfo[1], userInfo[0], userInfo[2]],
           backgroundColor: ["#dc354552"],
         },
-      ],
-    },
-    options: Chart.defaults.radar,
-  });
-
-  function updateChart(i, specificData) {
-    radar_chart.data.datasets = [
-      {
-        label: suburb[i],
-        data: [
-          parseFloat(specificData["total_population"]) / 100313,
-          age_diversity[i],
-          cultural_diversity[i],
-          parseFloat(specificData["median_weekly_rent"]) / 740,
-        ],
-        backgroundColor: ["#007bff29"],
-      },
-      {
-        label: "User Preference",
-        data: [userInfo[3], userInfo[1], userInfo[0], userInfo[2]],
-        backgroundColor: ["#dc354552"],
-      },
-    ];
-    radar_chart.update();
-  }
-
-  var ctx_travel = document.getElementById("travel-method").getContext("2d");
-  var pie_chart = new Chart(ctx_travel, {
-    type: "doughnut",
-    data: {
-      labels: [
-        dataInfo["Top_1_Method_Travel_to_Work"],
-        dataInfo["Top_2_Method_Travel_to_Work"],
-        dataInfo["Top_3_Method_Travel_to_Work"],
-        dataInfo["Top_4_Method_Travel_to_Work"],
-      ],
-      datasets: [
-        {
-          label: dataInfo["ssc_name"],
-          data: [
-            parseFloat(dataInfo["Top1_One_Method_Value_Percent"]),
-            parseFloat(dataInfo["Top2_One_Method_Value_Percent"]),
-            parseFloat(dataInfo["Top3_One_Method_Value_Percent"]),
-            parseFloat(dataInfo["Top4_One_Method_Value_Percent"]),
-          ],
-          backgroundColor: ["#FF6384", "#4BC0C0", "#FFCE56", "#459ae4"],
-        },
-      ],
-    },
-    options: Chart.defaults.doughnut,
-  });
-
-  function updatePieChart(specficData) {
-    console.log("Updating");
-    (pie_chart.data = {
-      labels: [
-        specficData["Top_1_Method_Travel_to_Work"],
-        specficData["Top_2_Method_Travel_to_Work"],
-        specficData["Top_3_Method_Travel_to_Work"],
-        specficData["Top_4_Method_Travel_to_Work"],
-      ],
-      datasets: [
-        {
-          label: specficData["ssc_name"],
-          data: [
-            parseFloat(specficData["Top1_One_Method_Value_Percent"]),
-            parseFloat(specficData["Top2_One_Method_Value_Percent"]),
-            parseFloat(specficData["Top3_One_Method_Value_Percent"]),
-            parseFloat(specficData["Top4_One_Method_Value_Percent"]),
-          ],
-          backgroundColor: ["#FF6384", "#4BC0C0", "#FFCE56", "#459ae4"],
-        },
-      ],
-    }),
-      pie_chart.update();
-  }
-
-  function addEvent(m, i) {
-    m.addListener("click", () => {
-      // Get relevant data for suburb
-      dataInfo = JSON.parse(httpGet(data[i]))["features"][0]["properties"];
-      updateChart(i, dataInfo);
-      updatePieChart(dataInfo);
-      console.log(dataInfo);
-
-      // Update the key statistics
-      document.getElementById("household-income").innerHTML =
-        dataInfo["median_household_income_weekly"];
-      document.getElementById("suburb").innerHTML = suburb[i];
-    });
-  }
-
-  function initMap() {
-    // The location of Uluru
-    var uluru = { lat: parseFloat(lat[0]), lng: parseFloat(lng[0]) };
-    console.log(suburb);
-    // The map, centered at Uluru
-    var map = new google.maps.Map(document.getElementById("map"), {
-      zoom: 12,
-      center: uluru,
-    });
-
-    // The marker, positioned at Uluru
-    for (var i = 0; i < lat.length; i++) {
-      var marker = new google.maps.Marker({
-        position: { lat: parseFloat(lat[i]), lng: parseFloat(lng[i]) },
-        map: map,
-        icon: {
-          url:
-            "http://maps.google.com/mapfiles/kml/paddle/" +
-            (i + 1).toString() +
-            ".png",
-        },
-      });
-      addEvent(marker, i);
+      ];
+      radar_chart.update();
     }
-  }
+
+    var ctx_travel = document.getElementById("travel-method").getContext("2d");
+    var pie_chart = new Chart(ctx_travel, {
+      type: "doughnut",
+      data: {
+        labels: [
+          dataInfo["Top_1_Method_Travel_to_Work"],
+          dataInfo["Top_2_Method_Travel_to_Work"],
+          dataInfo["Top_3_Method_Travel_to_Work"],
+          dataInfo["Top_4_Method_Travel_to_Work"],
+        ],
+        datasets: [
+          {
+            label: dataInfo["ssc_name"],
+            data: [
+              parseFloat(dataInfo["Top1_One_Method_Value_Percent"]),
+              parseFloat(dataInfo["Top2_One_Method_Value_Percent"]),
+              parseFloat(dataInfo["Top3_One_Method_Value_Percent"]),
+              parseFloat(dataInfo["Top4_One_Method_Value_Percent"]),
+            ],
+            backgroundColor: ["#FF6384", "#4BC0C0", "#FFCE56", "#459ae4"],
+          },
+        ],
+      },
+      options: Chart.defaults.doughnut,
+    });
+
+    function updatePieChart(specficData) {
+      console.log("Updating");
+      (pie_chart.data = {
+        labels: [
+          specficData["Top_1_Method_Travel_to_Work"],
+          specficData["Top_2_Method_Travel_to_Work"],
+          specficData["Top_3_Method_Travel_to_Work"],
+          specficData["Top_4_Method_Travel_to_Work"],
+        ],
+        datasets: [
+          {
+            label: specficData["ssc_name"],
+            data: [
+              parseFloat(specficData["Top1_One_Method_Value_Percent"]),
+              parseFloat(specficData["Top2_One_Method_Value_Percent"]),
+              parseFloat(specficData["Top3_One_Method_Value_Percent"]),
+              parseFloat(specficData["Top4_One_Method_Value_Percent"]),
+            ],
+            backgroundColor: ["#FF6384", "#4BC0C0", "#FFCE56", "#459ae4"],
+          },
+        ],
+      }),
+        pie_chart.update();
+    }
+
+    function addEvent(m, i) {
+      m.addListener("click", () => {
+        // Get relevant data for suburb
+        dataInfo = JSON.parse(httpGet(data[i]))["features"][0]["properties"];
+        updateChart(i, dataInfo);
+        updatePieChart(dataInfo);
+        console.log(dataInfo);
+
+        // Update the key statistics
+        document.getElementById("household-income").innerHTML =
+          dataInfo["median_household_income_weekly"];
+        document.getElementById("suburb").innerHTML = suburb[i];
+      });
+    }
+
+    function initMap() {
+      // The location of Uluru
+      var uluru = { lat: parseFloat(lat[0]), lng: parseFloat(lng[0]) };
+      console.log(suburb);
+      // The map, centered at Uluru
+      var map = new google.maps.Map(document.getElementById("map"), {
+        zoom: 12,
+        center: uluru,
+      });
+
+      // The marker, positioned at Uluru
+      for (var i = 0; i < lat.length; i++) {
+        var marker = new google.maps.Marker({
+          position: { lat: parseFloat(lat[i]), lng: parseFloat(lng[i]) },
+          map: map,
+          icon: {
+            url:
+              "http://maps.google.com/mapfiles/kml/paddle/" +
+              (i + 1).toString() +
+              ".png",
+          },
+        });
+        addEvent(marker, i);
+      }
+    }
+
 </script>
 
 <script
   async
   defer
-  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCb7IIUbrQAD4rmWhFPvjG_jS3yU1K5aYc&callback=initMap"
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-W_aE1PDtciua1WNeIarzQRWvNq_HP7A&callback=initMap"
   type="text/javascript"
 ></script>
 <script
