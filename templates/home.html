@@ -16,7 +16,9 @@
 {% endblock %} {% block content %}
 
 <div class="container">
-  <h1>Early Super Withdrawal Tool</h1>
+  <h1 class="display-3">Early Super Withdrawal Tool</h1>
+  <p class="lead">The power of compounding returns helps you to save more money. This calculator shows the impact of withdrawing your super early.</p>
+
 
   <div class="info-container">
     <!-- Inputs -->
@@ -183,17 +185,17 @@
 <div class="container">
   <h1>Plan for a withdrawal</h1>
   <h5>
-    Early withdrawal can have significant financial cost, here are strategies to
-    minimise the impacts
+    Early withdrawal can have a significant financial cost so here are some ways to
+    minimise the impacts.
   </h5>
   <!-- Payment Planner -->
   <div style="display: flex; flex-direction: row; align-items: center;">
     <div style="width: 400px;">
       <h3>Payment Planner</h3>
       <h5>
-        Make up the lost ground with a temporary boost in your contribution
+        Make up the lost ground with a temporary boost in your contribution.
       </h5>
-      <h5>The more you contribute; the sooner your super will recover</h5>
+      <h5>The more you contribute, the sooner your super will recover.</h5>
     </div>
     <div class="feedback-container">
       <h2
@@ -269,7 +271,7 @@
               id="check1"
             />
             <label class="form-check-label" for="check1">
-              Tertiary surgical centre
+              Tertiary hospital
             </label>
           </div>
           <div class="form-check">
@@ -336,16 +338,16 @@
 
       <!-- Rent -->
       <div class="slider-label-container input-container">
-        <h5>Select from different rent categories</h5>
+        <h5>Select your weekly rent allocation</h5>
         <select
           style="align-self: center; max-width: 600px;"
           class="custom-select"
+          name="rent-value"
         >
-          <option selected>Select rent bracket</option>
-          <option value="1">>$1000</option>
-          <option value="2">$1000-$1499</option>
-          <option value="3">$1500-$1999</option>
-          <option value="3">$2000+</option>
+          <option value="1"><$250</option>
+          <option value="2" selected='selected'>$250-500</option>
+          <option value="3">$500-750</option>
+          <option value="4">$750+</option>
         </select>
       </div>
 
@@ -375,6 +377,23 @@
         id="age-diversity-amount"
         type="range"
         name="ageDiversity"
+        min="0"
+        max="100"
+        class="slider"
+        value="50"
+        step="1"
+        oninput="updateInput(this.value, this.id);"
+      />
+
+      <!-- Age Diversity Amount -->
+      <div class="slider-label-container input-container">
+        <h5>Do you want to live in a heavily populated suburb?</h5>
+        <h5 id="population-amount-disp">50</h5>
+      </div>
+      <input
+        id="population-amount"
+        type="range"
+        name="population"
         min="0"
         max="100"
         class="slider"
