@@ -281,20 +281,14 @@
       center: uluru,
       styles: styles,
     });
-
-    function addEvent(m, i) {
-      m.addListener("click", () => {
-        // Get relevant data for suburb
-        dataInfo = JSON.parse(httpGet(data[i]))["features"][0]["properties"];
-        updateChart(i, dataInfo);
-        updatePieChart(dataInfo);
-        console.log(dataInfo);
-
-        // Update the key statistics
-        document.getElementById("household-income").innerHTML =
-          dataInfo["median_household_income_weekly"];
-        document.getElementById("suburb").innerHTML = suburb[i];
+    // The marker, positioned at Uluru
+    for (var i = 0; i < lat.length; i++) {
+      var marker = new google.maps.Marker({
+        position: { lat: parseFloat(lat[i]), lng: parseFloat(lng[i]) },
+        map: map,
+        label: "" + (i + 1),
       });
+      addEvent(marker, i)
     }
   }
 </script>
