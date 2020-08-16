@@ -43,25 +43,25 @@
 
 <script src="{{ url_for('static', filename='detail.js') }}"></script>
 <script>
-    function httpGet(theUrl) {
-      var xmlHttp = new XMLHttpRequest();
-      xmlHttp.open("GET", theUrl, false); // false for synchronous request
-      xmlHttp.send(null);
-      return xmlHttp.responseText;
-    }
+  function httpGet(theUrl) {
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open("GET", theUrl, false); // false for synchronous request
+    xmlHttp.send(null);
+    return xmlHttp.responseText;
+  }
 
-    var lat = JSON.parse("{{ lat }}");
-    var lng = JSON.parse("{{ lng }}");
-    var population = JSON.parse("{{ population }}");
-    var suburb_string = "{{ suburb }}";
-    suburb_string = suburb_string.replace(/&#34;/g, "");
-    suburb_string = suburb_string.substring(1, suburb_string.length - 1);
-    var suburb = suburb_string.split(", ");
+  var lat = JSON.parse("{{ lat }}");
+  var lng = JSON.parse("{{ lng }}");
+  var population = JSON.parse("{{ population }}");
+  var suburb_string = "{{ suburb }}";
+  suburb_string = suburb_string.replace(/&#34;/g, "");
+  suburb_string = suburb_string.substring(1, suburb_string.length - 1);
+  var suburb = suburb_string.split(", ");
 
-    var data = "{{ data_calls }}";
+  var data = "{{ data_calls }}";
 
-    var userInfo = "{{ userInfo }}";
-    userInfo = userInfo.substring(1, userInfo.length - 1).split(", ");
+  var userInfo = "{{ userInfo }}";
+  userInfo = userInfo.substring(1, userInfo.length - 1).split(", ");
 
   data = data.replace(/&#39;/g, "");
   data = data.replace(/amp;/g, "");
@@ -71,68 +71,67 @@
   var age_diversity = JSON.parse("{{ age_diversity }}");
   var dataInfo = JSON.parse(httpGet(data[0]))["features"][0]["properties"];
 
+  // Initialise key statistics
+  document.getElementById("household-income").innerHTML =
+    dataInfo["median_household_income_weekly"];
+  document.getElementById("suburb").innerHTML = suburb[0];
 
-    // Initialise key statistics
-    document.getElementById("household-income").innerHTML =
-      dataInfo["median_household_income_weekly"];
-    document.getElementById("suburb").innerHTML = suburb[0];
-
-    var ctx = document.getElementById("radar-chart").getContext("2d");
-    var radar_chart = new Chart(ctx, {
-      type: "radar",
-      data: {
-        labels: [
-          "Population",
-          "Age Diversity",
-          "Cultural Diversity",
-          "Cost of Living",
-        ],
-        datasets: [
-          {
-            label: dataInfo["ssc_name"],
-            data: [
-              parseFloat(dataInfo["total_population"]) / 100313,
-              age_diversity[0],
-              cultural_diversity[0],
-              parseFloat(dataInfo["median_weekly_rent"]) / 740,
-            ],
-            backgroundColor: ["#007bff29"],
-          },
-          {
-            label: "User Preferences",
-            data: [
-              parseFloat(userInfo[3]),
-              parseFloat(userInfo[1]),
-              parseFloat(userInfo[0]),
-              parseFloat(userInfo[2]),
-            ],
-            backgroundColor: ["#dc354552"],
-          },
-        ],
-      },
-      options: Chart.defaults.radar,
-    });
-
-    function updateChart(i, specificData) {
-      radar_chart.data.datasets = [
+  var ctx = document.getElementById("radar-chart").getContext("2d");
+  var radar_chart = new Chart(ctx, {
+    type: "radar",
+    data: {
+      labels: [
+        "Population",
+        "Age Diversity",
+        "Cultural Diversity",
+        "Cost of Living",
+      ],
+      datasets: [
         {
-          label: suburb[i],
+          label: dataInfo["ssc_name"],
           data: [
-            parseFloat(specificData["total_population"]) / 100313,
-            age_diversity[i],
-            cultural_diversity[i],
-            parseFloat(specificData["median_weekly_rent"]) / 740,
+            parseFloat(dataInfo["total_population"]) / 100313,
+            age_diversity[0],
+            cultural_diversity[0],
+            parseFloat(dataInfo["median_weekly_rent"]) / 740,
           ],
           backgroundColor: ["#007bff29"],
         },
         {
-          label: "User Preference",
-          data: [userInfo[3], userInfo[1], userInfo[0], userInfo[2]],
+          label: "User Preferences",
+          data: [
+            parseFloat(userInfo[3]),
+            parseFloat(userInfo[1]),
+            parseFloat(userInfo[0]),
+            parseFloat(userInfo[2]),
+          ],
           backgroundColor: ["#dc354552"],
         },
-      ];
-      radar_chart.update();
-    }
+      ],
+    },
+    options: Chart.defaults.radar,
+  });
+
+  function updateChart(i, specificData) {
+    radar_chart.data.datasets = [
+      {
+        label: suburb[i],
+        data: [
+          parseFloat(specificData["total_population"]) / 100313,
+          age_diversity[i],
+          cultural_diversity[i],
+          parseFloat(specificData["median_weekly_rent"]) / 740,
+        ],
+        backgroundColor: ["#007bff29"],
+      },
+      {
+        label: "User Preference",
+        data: [userInfo[3], userInfo[1], userInfo[0], userInfo[2]],
+        backgroundColor: ["#dc354552"],
+      },
+    ];
+    radar_chart.update();
+  }
 
   var ctx_travel = document.getElementById("travel-method").getContext("2d");
   var pie_chart = new Chart(ctx_travel, {
@@ -283,7 +282,6 @@
       styles: styles,
     });
 
-
     function addEvent(m, i) {
       m.addListener("click", () => {
         // Get relevant data for suburb
@@ -298,6 +296,7 @@
         document.getElementById("suburb").innerHTML = suburb[i];
       });
     }
+  }
 </script>
 
 <script
