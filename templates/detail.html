@@ -172,7 +172,6 @@
   });
 
   function updatePieChart(specficData) {
-    console.log("Updating");
     (pie_chart.data = {
       labels: [
         specficData["Top_1_Method_Travel_to_Work"],
@@ -286,7 +285,6 @@
   function initMap() {
     // The location of Uluru
     var uluru = { lat: parseFloat(lat[0]), lng: parseFloat(lng[0]) };
-    console.log(suburb);
     // The map, centered at Uluru
     var map = new google.maps.Map(document.getElementById("map"), {
       zoom: 12,

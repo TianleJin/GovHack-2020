@@ -38,9 +38,6 @@ def handle_data():
 
     # your code
     # return a response
-    print('Culture: ', cultural_diversity_amount)
-    print('Age: ', age_diversity_amount)
-
     # Inputs: cultural diversity, age_diversity_amount
     # Output: List of 5 top recommendations (coordinates, postcode, suburb name, diversity rankings)
     lat_, lng_, population_, suburb_, postcodes_, cultural_diversity_, age_diversity_ = recommender.recommend(cultural_diversity_amount, age_diversity_amount, population_choice, n=20)
@@ -54,8 +51,6 @@ def handle_data():
             indexes.append(i)
         if len(ssc_codes) == 5:
             break
-
-    print(ssc_codes)
 
     for i in indexes:
         lat.append(lat_[i])
