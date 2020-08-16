@@ -15,29 +15,41 @@
 
 <div class="jumbotron">
   <h2 class="display-4" id="suburb"></h2>
+  <h4>Regional Australia</h4>
+  <h4>Ready when you are.</h4>
 </div>
 <div class="container">
-  <h1>Regional Australia</h1>
-  <h2>Ready when you are.</h2>
   <div class="row">
-    <div class="col">
-      <h3>Locations</h3>
-      <div id="map"></div>
-    </div>
-    <div class="col">
-      <canvas id="radar-chart" height="400" width="400">click me</canvas>
-    </div>
+    <h2>Locations</h2>
+    <div id="map"></div>
   </div>
 </div>
 
-<div class="flex-container">
-  <div>
-    <h3>Median Household Weekly Income:</h3>
-    <h4 id="household-income"></h4>
+<div class="container">
+  <div class="row alert alert-primary" role="alert">
+    <h3>Median Household Weekly Income: <span id="household-income"></span></h3>
   </div>
-  <div>
-    <h3>Travel to work preferences:</h3>
-    <canvas id="travel-method" width="400" height="400"></canvas>
+  <div class="row">
+    <div class="col">
+      <div class="card text-center">
+        <div class="card-header">
+          <h3>Suburb Overview</h3>
+        </div>
+        <div class="card-body">
+          <canvas id="radar-chart" height="400" width="400">click me</canvas>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card text-center">
+        <div class="card-header">
+          <h3>Travel Preferences</h3>
+        </div>
+        <div class="card-body">
+          <canvas id="travel-method" width="400" height="400"></canvas>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -73,7 +85,7 @@
 
   // Initialise key statistics
   document.getElementById("household-income").innerHTML =
-    dataInfo["median_household_income_weekly"];
+    "$" + dataInfo["median_household_income_weekly"];
   document.getElementById("suburb").innerHTML = suburb[0];
 
   var ctx = document.getElementById("radar-chart").getContext("2d");
@@ -194,7 +206,7 @@
 
       // Update the key statistics
       document.getElementById("household-income").innerHTML =
-        dataInfo["median_household_income_weekly"];
+        "$" + dataInfo["median_household_income_weekly"];
       document.getElementById("suburb").innerHTML = suburb[i];
     });
   }

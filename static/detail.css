@@ -1,6 +1,6 @@
 #map {
     width: 100%;
-    height: 400px;
+    height: 500px;
 }
 
 .container {
@@ -19,6 +19,20 @@
 }
 
 .jumbotron {
-    background-color: plum;
+    background-color: #7dcdcd;
     color: floralwhite;
+}
+
+.card-header {
+    background-color: #7dcdcd;
+    border-color: #7dcdcd;
+    color: floralwhite;
+}
+
+.card {
+    border-color: #7dcdcd;
+}
+
+.card-body {
+    border-color: #7dcdcd;
 }
