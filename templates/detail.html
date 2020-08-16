@@ -12,7 +12,11 @@
 />
 {% endblock %} {% block content %}
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+
+<h2 id="suburb"></h2>
 <div class="container">
+  <h1>Regional Australia</h1>
+  <h2>Ready when you are.</h2>
   <div class="row">
     <div class="col">
       <h3>Locations</h3>
@@ -24,10 +28,16 @@
   </div>
 </div>
 
-<div class="container">
-  <h3>Median Household Weekly Income:</h3>
-  <div id="household-income"></div>
-  <div><canvas id="travel-method" width="400" height="400"></canvas></div>
+
+<div class="flex-container">
+  <div>
+    <h3>Median Household Weekly Income:</h3>
+    <h4 id="household-income"></h4>
+  </div>
+  <div>
+    <h3>Travel to work preferences:</h3>
+    <canvas id="travel-method" width="400" height="400"></canvas>
+  </div>
 </div>
 
 <script src="{{ url_for('static', filename='detail.js') }}"></script>
@@ -64,6 +74,7 @@
   // Initialise key statistics
   document.getElementById("household-income").innerHTML =
     dataInfo["median_household_income_weekly"];
+  document.getElementById("suburb").innerHTML = suburb[0];
 
   var ctx = document.getElementById("radar-chart").getContext("2d");
   var radar_chart = new Chart(ctx, {
@@ -184,6 +195,7 @@
       // Update the key statistics
       document.getElementById("household-income").innerHTML =
         dataInfo["median_household_income_weekly"];
+      document.getElementById("suburb").innerHTML = suburb[i];
     });
   }
 

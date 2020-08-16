@@ -11,14 +11,15 @@
   type="text/css"
   href="{{ url_for('static',filename='home.css') }}"
 />
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
 <script src="{{url_for('static', filename='home.js')}}"></script>
 {% endblock %} {% block content %}
 
 <div class="container">
   <h1 class="display-3">Early Super Withdrawal Tool</h1>
-  <p class="lead">The power of compounding returns helps you to save more money. This calculator shows the impact of withdrawing your super early.</p>
-
+  <p class="lead">Money you take out today means crystallising current losses, giving up the benefits of future compound returns, and the eventual recovery in investment markets.</p>
+  <p class="lead">This calculator shows the impact of withdrawing your super early.</p>
 
   <div class="info-container">
     <!-- Inputs -->
@@ -183,6 +184,21 @@
 </div>
 
 <div class="container">
+  <h1>The effects of compounding</h1>
+  <div style="display: flex; flex-direction: row; margin-top: 40px;">
+    <div style="width: 400px; margin-right: 20px;">
+      <h3>Your balance grows by more each year</h3>
+      <h5>
+        With compounding, your balance will increase exponentially. Withdrawing
+        your super early means you will miss out on increasing amounts return
+        over time
+      </h5>
+    </div>
+    <canvas id="myChart" width="400" height="300"></canvas>
+  </div>
+</div>
+
+<div class="container">
   <h1>Plan for a withdrawal</h1>
   <h5>
     Early withdrawal can have a significant financial cost so here are some ways to
@@ -227,7 +243,7 @@
   <h3>Could relocation work for you?</h3>
   <h5>
     Moving regionally can greatly lower the cost of living. There's a regional
-    Victoria for everyone, find what's important to you below
+    Australia for everyone so find what's important to you below.
   </h5>
   <!-- Inputs -->
   <div class="input-container">
@@ -345,7 +361,7 @@
           name="rent-value"
         >
           <option value="1"><$250</option>
-          <option value="2" selected='selected'>$250-500</option>
+          <option value="2" selected="selected">$250-500</option>
           <option value="3">$500-750</option>
           <option value="4">$750+</option>
         </select>
