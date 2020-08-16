@@ -24,10 +24,18 @@
   </div>
 </div>
 
-<div class="container">
-  <h3>Median Household Weekly Income:</h3>
-  <div id="household-income"></div>
-  <div><canvas id="travel-method" width="400" height="400"></canvas></div>
+<h2 id="suburb"></h2>
+<h2>-</h2>
+<h2 id="postcode"></h2>
+<div class="flex-container">
+  <div>
+    <h3>Median Household Weekly Income:</h3>
+    <h4 id="household-income"></h4>
+  </div>
+  <div>
+    <h3>Travel to work preferences:</h3>
+    <canvas id="travel-method" width="400" height="400"></canvas>
+  </div>
 </div>
 
 <script src="{{ url_for('static', filename='detail.js') }}"></script>
@@ -71,6 +79,10 @@
 
   // Initialise key statistics
   document.getElementById("household-income").innerHTML =
+    dataInfo["median_household_income_weekly"];
+  document.getElementById("suburb").innerHTML =
+    dataInfo["median_household_income_weekly"];
+  document.getElementById("postcode").innerHTML =
     dataInfo["median_household_income_weekly"];
 
   var ctx = document.getElementById("radar-chart").getContext("2d");
