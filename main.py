@@ -32,6 +32,8 @@ def detail():
 def handle_data():
     cultural_diversity_amount = request.form['cultureDiversity']
     age_diversity_amount = request.form['ageDiversity']
+    # temporary variable for population
+    population_amount = 50
 
     # your code
     # return a response
@@ -40,7 +42,7 @@ def handle_data():
 
     # Inputs: cultural diversity, age_diversity_amount
     # Output: List of 5 top recommendations (coordinates, postcode, suburb name, diversity rankings)
-    lat, lng, population, suburb, postcodes, cultural_diversity, age_diversity = recommender.recommend(float(cultural_diversity_amount) / 100, float(age_diversity_amount) / 100, n=5)
+    lat, lng, population, suburb, postcodes, cultural_diversity, age_diversity = recommender.recommend(float(cultural_diversity_amount) / 100, float(age_diversity_amount) / 100, float(population_amount) / 100, n=5)
     print(lat, lng, population, suburb, cultural_diversity, age_diversity)
 
     ssc_codes = [ssc_id[postcode_id.index(str(postcode))] for postcode in postcodes]
