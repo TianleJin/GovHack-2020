@@ -70,8 +70,9 @@ def handle_data():
     for info in data_calls:
         response = requests.get(info)
         data.append(response.json())
-
-    return render_template("detail.html", userInfo=[cultural_diversity_amount, age_diversity_amount, rent_amount, population_choice], lat=lat, lng=lng, population = population, suburb = json.dumps(suburb), cultural_diversity = cultural_diversity, age_diversity = age_diversity, data_calls=data_calls)
+    
+    google_config = app.secret_key
+    return render_template("detail.html", userInfo=[cultural_diversity_amount, age_diversity_amount, rent_amount, population_choice], lat=lat, lng=lng, population = population, suburb = json.dumps(suburb), cultural_diversity = cultural_diversity, age_diversity = age_diversity, data_calls=data_calls, google_config=google_config)
 
 if __name__ == '__main__':
     app.run(port=os.getenv('PORT', 5000), debug=True)

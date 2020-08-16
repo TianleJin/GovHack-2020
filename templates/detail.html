@@ -288,17 +288,19 @@
         map: map,
         label: "" + (i + 1),
       });
-      addEvent(marker, i)
+      addEvent(marker, i);
     }
   }
 </script>
 
-<script
-  async
-  defer
-  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCb7IIUbrQAD4rmWhFPvjG_jS3yU1K5aYc&callback=initMap"
-  type="text/javascript"
-></script>
+<script async defer >
+  var source = "{{ google_config }}";
+  source = source.replace(/&#34;/g, "");
+  var scriptElement = document.createElement("script");
+  scriptElement.src = source;
+  document.write("\<script src='" + source + "'\>\</script\>");
+</script>
+
 <script
   src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
   integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
