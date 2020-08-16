@@ -52,22 +52,14 @@
   var userInfo = "{{ userInfo }}";
   userInfo = userInfo.substring(1, userInfo.length - 1).split(", ");
 
-  console.log(data);
   data = data.replace(/&#39;/g, "");
   data = data.replace(/amp;/g, "");
   data = data.substring(1, data.length - 1);
   var data = data.split(", ");
-  console.log(data);
-  console.log(suburb);
   var cultural_diversity = JSON.parse("{{ cultural_diversity }}");
   var age_diversity = JSON.parse("{{ age_diversity }}");
   var dataInfo = JSON.parse(httpGet(data[0]))["features"][0]["properties"];
 
-  console.log(dataInfo);
-  console.log(parseFloat(dataInfo["total_population"]) / 100313);
-  console.log(age_diversity[0]);
-  console.log(cultural_diversity[0]);
-  console.log(parseFloat(dataInfo["median_weekly_rent"]) / 740);
 
   // Initialise key statistics
   document.getElementById("household-income").innerHTML =
