@@ -134,56 +134,155 @@
       radar_chart.update();
     }
 
-    var ctx_travel = document.getElementById("travel-method").getContext("2d");
-    var pie_chart = new Chart(ctx_travel, {
-      type: "doughnut",
-      data: {
-        labels: [
-          dataInfo["Top_1_Method_Travel_to_Work"],
-          dataInfo["Top_2_Method_Travel_to_Work"],
-          dataInfo["Top_3_Method_Travel_to_Work"],
-          dataInfo["Top_4_Method_Travel_to_Work"],
-        ],
-        datasets: [
-          {
-            label: dataInfo["ssc_name"],
-            data: [
-              parseFloat(dataInfo["Top1_One_Method_Value_Percent"]),
-              parseFloat(dataInfo["Top2_One_Method_Value_Percent"]),
-              parseFloat(dataInfo["Top3_One_Method_Value_Percent"]),
-              parseFloat(dataInfo["Top4_One_Method_Value_Percent"]),
-            ],
-            backgroundColor: ["#FF6384", "#4BC0C0", "#FFCE56", "#459ae4"],
-          },
-        ],
-      },
-      options: Chart.defaults.doughnut,
+  var ctx_travel = document.getElementById("travel-method").getContext("2d");
+  var pie_chart = new Chart(ctx_travel, {
+    type: "doughnut",
+    data: {
+      labels: [
+        dataInfo["Top_1_Method_Travel_to_Work"],
+        dataInfo["Top_2_Method_Travel_to_Work"],
+        dataInfo["Top_3_Method_Travel_to_Work"],
+        dataInfo["Top_4_Method_Travel_to_Work"],
+      ],
+      datasets: [
+        {
+          label: dataInfo["ssc_name"],
+          data: [
+            parseFloat(dataInfo["Top1_One_Method_Value_Percent"]),
+            parseFloat(dataInfo["Top2_One_Method_Value_Percent"]),
+            parseFloat(dataInfo["Top3_One_Method_Value_Percent"]),
+            parseFloat(dataInfo["Top4_One_Method_Value_Percent"]),
+          ],
+          backgroundColor: ["#FF6384", "#4BC0C0", "#FFCE56", "#459ae4"],
+        },
+      ],
+    },
+    options: Chart.defaults.doughnut,
+  });
+
+  function updatePieChart(specficData) {
+    console.log("Updating");
+    (pie_chart.data = {
+      labels: [
+        specficData["Top_1_Method_Travel_to_Work"],
+        specficData["Top_2_Method_Travel_to_Work"],
+        specficData["Top_3_Method_Travel_to_Work"],
+        specficData["Top_4_Method_Travel_to_Work"],
+      ],
+      datasets: [
+        {
+          label: specficData["ssc_name"],
+          data: [
+            parseFloat(specficData["Top1_One_Method_Value_Percent"]),
+            parseFloat(specficData["Top2_One_Method_Value_Percent"]),
+            parseFloat(specficData["Top3_One_Method_Value_Percent"]),
+            parseFloat(specficData["Top4_One_Method_Value_Percent"]),
+          ],
+          backgroundColor: ["#FF6384", "#4BC0C0", "#FFCE56", "#459ae4"],
+        },
+      ],
+    }),
+      pie_chart.update();
+  }
+
+  function addEvent(m, i) {
+    m.addListener("click", () => {
+      // Get relevant data for suburb
+      dataInfo = JSON.parse(httpGet(data[i]))["features"][0]["properties"];
+      updateChart(i, dataInfo);
+      updatePieChart(dataInfo);
+      console.log(dataInfo);
+
+      // Update the key statistics
+      document.getElementById("household-income").innerHTML =
+        dataInfo["median_household_income_weekly"];
+      document.getElementById("suburb").innerHTML = suburb[i];
+    });
+  }
+
+  var styles = [
+    {
+      featureType: "landscape.natural",
+      elementType: "geometry.fill",
+      stylers: [
+        {
+          visibility: "on",
+        },
+        {
+          color: "#e0efef",
+        },
+      ],
+    },
+    {
+      featureType: "poi",
+      elementType: "geometry.fill",
+      stylers: [
+        {
+          visibility: "on",
+        },
+        {
+          hue: "#1900ff",
+        },
+        {
+          color: "#c0e8e8",
+        },
+      ],
+    },
+    {
+      featureType: "road",
+      elementType: "geometry",
+      stylers: [
+        {
+          lightness: 100,
+        },
+        {
+          visibility: "simplified",
+        },
+      ],
+    },
+    {
+      featureType: "road",
+      elementType: "labels",
+      stylers: [
+        {
+          visibility: "off",
+        },
+      ],
+    },
+    {
+      featureType: "transit.line",
+      elementType: "geometry",
+      stylers: [
+        {
+          visibility: "on",
+        },
+        {
+          lightness: 700,
+        },
+      ],
+    },
+    {
+      featureType: "water",
+      elementType: "all",
+      stylers: [
+        {
+          color: "#7dcdcd",
+        },
+      ],
+    },
+  ];
+
+  function initMap() {
+    // The location of Uluru
+    var uluru = { lat: parseFloat(lat[0]), lng: parseFloat(lng[0]) };
+    console.log(suburb);
+    // The map, centered at Uluru
+    var map = new google.maps.Map(document.getElementById("map"), {
+      zoom: 12,
+      center: uluru,
+      styles: styles,
     });
 
-    function updatePieChart(specficData) {
-      console.log("Updating");
-      (pie_chart.data = {
-        labels: [
-          specficData["Top_1_Method_Travel_to_Work"],
-          specficData["Top_2_Method_Travel_to_Work"],
-          specficData["Top_3_Method_Travel_to_Work"],
-          specficData["Top_4_Method_Travel_to_Work"],
-        ],
-        datasets: [
-          {
-            label: specficData["ssc_name"],
-            data: [
-              parseFloat(specficData["Top1_One_Method_Value_Percent"]),
-              parseFloat(specficData["Top2_One_Method_Value_Percent"]),
-              parseFloat(specficData["Top3_One_Method_Value_Percent"]),
-              parseFloat(specficData["Top4_One_Method_Value_Percent"]),
-            ],
-            backgroundColor: ["#FF6384", "#4BC0C0", "#FFCE56", "#459ae4"],
-          },
-        ],
-      }),
-        pie_chart.update();
-    }
 
     function addEvent(m, i) {
       m.addListener("click", () => {
@@ -199,33 +298,6 @@
         document.getElementById("suburb").innerHTML = suburb[i];
       });
     }
-
-    function initMap() {
-      // The location of Uluru
-      var uluru = { lat: parseFloat(lat[0]), lng: parseFloat(lng[0]) };
-      console.log(suburb);
-      // The map, centered at Uluru
-      var map = new google.maps.Map(document.getElementById("map"), {
-        zoom: 12,
-        center: uluru,
-      });
-
-      // The marker, positioned at Uluru
-      for (var i = 0; i < lat.length; i++) {
-        var marker = new google.maps.Marker({
-          position: { lat: parseFloat(lat[i]), lng: parseFloat(lng[i]) },
-          map: map,
-          icon: {
-            url:
-              "http://maps.google.com/mapfiles/kml/paddle/" +
-              (i + 1).toString() +
-              ".png",
-          },
-        });
-        addEvent(marker, i);
-      }
-    }
-
 </script>
 
 <script
