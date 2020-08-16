@@ -62,6 +62,10 @@ function getRow(val) {
   }
 }
 
+function toggleTip(id) {
+  document.getElementById("tip-box").classList.toggle("show");
+}
+
 function updateInput(val, el) {
   document.getElementById(el + "-disp").innerHTML = val;
   calculate();
@@ -88,7 +92,10 @@ function calculate() {
     fees = fees + FEE * (1 - INFLATION) ** i;
   }
 
-  var fv = Math.max(0, drawAmount * (1 + (ROI - INFLATION - 0.0085)) ** n - fees);
+  var fv = Math.max(
+    0,
+    drawAmount * (1 + (ROI - INFLATION - 0.0085)) ** n - fees
+  );
 
   var contrib = income * SUPER_CONTRIB;
 
@@ -135,10 +142,20 @@ function calculate() {
 
   var plane = document.createElement("img");
   plane.src = "static/img/plane.png";
-  plane.style = "height: 35px; padding: 3px;"
+  plane.style = "height: 35px; padding: 3px;";
   for (var i = 0; i < numPlanes; i++) {
     node.appendChild(plane.cloneNode(true));
   }
+
+  var plannerYears = document.getElementById("extra-contrib").value;
+  var plannerPmt = Math.round(
+    (fv * ROI) / ((1 + ROI) ** plannerYears - 1) / (1 + ROI) ** plannerYears
+  );
+  if (plannerYears == 1) {
+    plannerPmt = drawAmount;
+  }
+  document.getElementById("extra-pmt").innerHTML =
+    "$" + plannerPmt.toLocaleString() + " p.a.";
 
   document.getElementById("feedback").classList.add("show");
 }
